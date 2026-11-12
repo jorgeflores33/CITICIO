@@ -1,0 +1,13 @@
+@model EmpresaEmpleadoEditarForm
+@{ViewData["Title"]="Editar empleado";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">PERSONAL</span><h1>Editar empleado</h1><p>Actualiza el perfil, la sucursal y el estado de acceso.</p></div>
+<div class="form-card wide-card"><form asp-action="EditarEmpleado" method="post"><input type="hidden" asp-for="Id"/><div asp-validation-summary="All" class="validation"></div>
+<div class="form-grid"><div><label asp-for="Nombre">Nombre</label><input asp-for="Nombre"/></div>
+<div><label asp-for="Paterno">Apellido paterno</label><input asp-for="Paterno"/></div>
+<div><label asp-for="Materno">Apellido materno</label><input asp-for="Materno"/></div>
+<div><label asp-for="Correo">Correo de acceso</label><input asp-for="Correo" type="email"/></div>
+<div><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono" type="tel"/></div>
+<div><label asp-for="SucursalId">Sucursal asignada</label><select asp-for="SucursalId"><option value="">Sin sucursal</option>@foreach(DbRow s in ViewBag.Sucursales){<option value="@s.I("id_sucursal")">@s.S("nombre")</option>}</select></div></div>
+<label class="empresa-check"><input asp-for="Activo" type="checkbox"/> Empleado activo (desmarcar para desactivar acceso)</label>
+<button type="submit" class="btn btn-primary">Guardar cambios</button> <a asp-action="Empleados" class="btn btn-outline">Volver</a>
+</form></div></section>

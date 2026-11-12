@@ -1,0 +1,36 @@
+@model Citicio.Models.CuentaBancariaVM
+@{ ViewData["Title"]="Cuentas bancarias de mi empresa"; }
+<section class="content-head"><span class="eyebrow">ADMINISTRACIÓN DE EMPRESA</span><h1>Cuentas para transferencias SPEI</h1>
+<p>Registra la cuenta donde recibirás directamente el pago de tus clientes. CITICIO no recibe ni distribuye estos fondos.</p></section>
+<div class="spei-cols">
+ <section class="form-card"><h2>Nueva cuenta bancaria</h2>
+ <p class="muted">Solo usa cuentas que pertenezcan a tu empresa. La CLABE debe tener 18 números y un dígito verificador válido.</p>
+ <form asp-controller="Spei" asp-action="GuardarCuenta" method="post">
+  <div asp-validation-summary="All" class="validation"></div>
+  <div class="form-grid">
+   <div class="field-span"><label>Sucursal receptora</label><select name="IdCuentaBancaria" required><option value="">Selecciona la sucursal</option>@foreach(var suc in Model.Cuentas){<option value="@suc.I("id_sucursal")">@suc.S("sucursal")</option>}</select></div>
+   <div><label asp-for="Nueva.CodigoBanco">Código bancario (3 dígitos)</label><input name="CodigoBanco" value="@Model.Nueva.CodigoBanco" maxlength="3" inputmode="numeric" placeholder="012" required /></div>
+   <div><label asp-for="Nueva.NombreBanco">Nombre del banco</label><input name="NombreBanco" value="@Model.Nueva.NombreBanco" maxlength="100" placeholder="BBVA" required /></div>
+   <div class="field-span"><label asp-for="Nueva.Titular">Titular de la cuenta</label><input name="Titular" value="@Model.Nueva.Titular" maxlength="200" required /></div>
+   <div class="field-span"><label asp-for="Nueva.Clabe">CLABE interbancaria (18 dígitos)</label><input name="Clabe" value="@Model.Nueva.Clabe" minlength="18" maxlength="18" inputmode="numeric" autocomplete="off" required /></div>
+  </div>
+  <button class="btn btn-primary" type="submit">Guardar cuenta →</button>
+ </form>
+ </section>
+ <section class="form-card"><h2>Sucursales y cuentas receptoras</h2>
+  @if(Model.Cuentas.Count==0){<p class="muted">No hay sucursales registradas todavía.</p>}
+  @foreach(var cuenta in Model.Cuentas){
+   var clabe=cuenta.S("clabe_ultimos4");
+   <article class="spei-account">
+    <h3>@cuenta.S("sucursal") — @cuenta.S("nombre_banco") </h3>
+    <p>@cuenta.S("titular")</p>
+    <div class="spei-clabe">@(cuenta.B("tiene_cuenta") ? "•••• •••• •••• "+clabe : "Sin cuenta registrada")</div>
+    <p class="muted">La titularidad se verifica en la cuenta receptora y en Stripe Connect.</p>
+    @if(cuenta.B("tiene_cuenta")) {<form asp-controller="CuentaStripe" asp-action="Vincular" method="post">
+      <input type="hidden" name="id" value="@cuenta.I("id_sucursal")" />
+      <button type="submit" class="btn btn-outline btn-sm">Configurar tarjeta con Stripe</button>
+    </form>}
+   </article>
+  }
+ </section>
+</div>

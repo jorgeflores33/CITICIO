@@ -1,0 +1,10 @@
+@model ServicioForm
+@{ViewData["Title"]="Editar servicio";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">ADMINISTRACIÓN DE EMPRESA</span><h1>Editar precio y servicio</h1><p>Los cambios de precio aplican a todas las sucursales, pero no modifican el importe ya contratado en citas pasadas.</p></div>
+<div class="form-card"><form method="post" enctype="multipart/form-data" asp-action="ServicioEditar"><input asp-for="Id" type="hidden" /><input asp-for="EmpresaId" type="hidden" /><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="Nombre">Nombre del servicio</label><input asp-for="Nombre" />
+<label asp-for="Descripcion">Descripción</label><textarea asp-for="Descripcion" rows="3"></textarea>
+<label asp-for="Precio">Precio fijo MXN</label><input asp-for="Precio" type="number" min="0" step="0.01" />
+<p><img src="/Imagenes/Ver?uso=imagen_servicio&amp;id=@Model.Id" class="empresa-preview" alt="Imagen actual del servicio" onerror="this.style.display='none'" /></p>
+<label asp-for="ImagenArchivo">Imagen (opcional, máximo 2 MB)</label><input asp-for="ImagenArchivo" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" data-max-image /><small class="muted">JPG, PNG o WebP; se almacena en la base de datos.</small><span asp-validation-for="ImagenArchivo" class="validation"></span>
+<button class="btn btn-primary" type="submit">Guardar cambios →</button></form></div></section>

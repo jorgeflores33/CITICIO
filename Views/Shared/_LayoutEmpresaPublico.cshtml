@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>@ViewData["Title"] · CITICIO</title>
+  <meta name="description" content="CITICIO conecta personas y negocios para encontrar servicios y reservar citas en México." />
+  <link rel="stylesheet" href="~/css/empresa-publico.css" asp-append-version="true" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="site-brand" aria-label="CITICIO, volver al inicio"><span class="brand-symbol">✳</span><span>CITICIO<span class="logo-period">.</span></span></a>
+      <button type="button" id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Mostrar menú" aria-expanded="false">☰</button>
+      <nav id="mainNavigation" class="site-nav" aria-label="Navegación principal">
+        @if (!User.Es("admin_empresa","encargado_sucursal","empleado")) {
+        <div class="nav-primary">
+          <a class="@(ViewData["Pagina"] as string == "inicio" ? "nav-current" : "")" href="/">Inicio</a>
+          <a class="@(ViewData["Pagina"] as string == "catalogo" ? "nav-current" : "")" href="/empresas-servicios">Empresas y servicios</a>
+          <a class="@(ViewData["Pagina"] as string == "top10" ? "nav-current" : "")" href="/top10">Top 10</a>
+        </div>
+        }
+        <div class="nav-actions">
+          @if (User.Identity?.IsAuthenticated == true) {
+            <form action="@(Context.Request.Path.StartsWithSegments("/EmpresaSuscripcion") ? "/EmpresaSuscripcion/Salir" : "/Cuenta/Salir")" method="post">
+              @Html.AntiForgeryToken()
+              <button class="btn btn-outline" type="submit">Cerrar sesión</button>
+            </form>
+          } else {
+            <a class="btn btn-soft" href="/empresa/index.html">Iniciar sesión</a>
+            <a class="btn btn-outline" href="/registrar-empresa">Registrar empresa</a>
+            <a class="btn btn-solid" href="/crear-cuenta">Crear cuenta</a>
+          }
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content" class="main-content">@RenderBody()</main>
+  <footer class="site-footer"><div class="site-footer-inner"><span><strong>CITICIO.</strong> Tu próxima cita comienza aquí</span><span>© 2026 CITICIO · Agencia de multicitas</span></div></footer>
+  <script src="~/js/empresa-publico-site.js" defer asp-append-version="true"></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

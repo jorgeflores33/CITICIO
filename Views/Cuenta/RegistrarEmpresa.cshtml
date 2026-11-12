@@ -1,0 +1,42 @@
+@model RegistroEmpresaForm
+@{ ViewData["Title"]="Registrar mi empresa"; var giros=ViewBag.Giros as List<DbRow> ?? new List<DbRow>(); }
+<section class="form-page business-register-page">
+ <div class="content-head"><span class="eyebrow">NEGOCIOS EN CITICIO</span><h1>Registra tu empresa</h1><p>Completa el registro de tu negocio y crea tu cuenta de propietario. Tu empresa quedará activa al registrarse. Para acceder al panel debes pagar la mensualidad fija de CITICIO.</p></div>
+ <div class="process-steps"><span class="active">① Datos del negocio</span><span>② Datos del propietario</span><span>③ Empresa registrada · Mensualidad obligatoria</span></div>
+ <div class="form-card wide-card">
+  <form asp-controller="Cuenta" asp-action="RegistrarEmpresa" method="post" enctype="multipart/form-data">
+   <div asp-validation-summary="All" class="validation"></div>
+   <div class="form-section-heading"><span class="kind-icon small">▦</span><div><h2>Información de la empresa</h2><p>Tu empresa podrá publicar sus servicios cuando su mensualidad esté pagada y vigente.</p></div></div>
+   <div class="form-grid">
+    <div><label asp-for="NombreEmpresa">Nombre comercial *</label><input asp-for="NombreEmpresa" placeholder="Ej. Centro Integral Maya" /><span asp-validation-for="NombreEmpresa" class="validation"></span></div>
+    <div><label asp-for="GiroId">Giro o categoría</label><select asp-for="GiroId"><option value="">Seleccionar más adelante</option>@foreach(var g in giros){<option value="@g.I("id_giro")">@g.S("nombre_giro")</option>}</select></div>
+    <div class="field-span"><label asp-for="Descripcion">Descripción de la empresa</label><textarea asp-for="Descripcion" rows="3" placeholder="Describe los servicios que ofrece tu negocio..."></textarea></div>
+    <div class="field-span"><label asp-for="LogoArchivo">Logotipo de la empresa (opcional, máximo 2 MB)</label><input asp-for="LogoArchivo" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" data-max-image /><small class="muted">JPG, PNG o WebP. El archivo se almacena en CITICIO, no necesitas una URL.</small><span asp-validation-for="LogoArchivo" class="validation"></span></div>
+    <div class="field-span"><label asp-for="PortadaArchivo">Imagen de portada (opcional, máximo 2 MB)</label><input asp-for="PortadaArchivo" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" data-max-image /><span asp-validation-for="PortadaArchivo" class="validation"></span></div>
+   </div>
+   <div class="form-section-heading owner-heading"><span class="kind-icon small">⌖</span><div><h2>Domicilio de tu empresa</h2><p>Selecciona estado, municipio y colonia desde el catálogo nacional de México.</p></div></div>
+   <div class="form-grid" data-direccion>
+    <div><label>Estado o entidad federativa *</label><select data-estado required><option value="">Cargando estados...</option></select></div>
+    <div><label>Municipio o alcaldía *</label><select data-municipio required disabled><option value="">Selecciona estado</option></select></div>
+    <div><label>Código postal (opcional para filtrar)</label><input data-cp type="text" inputmode="numeric" maxlength="5" placeholder="Ej. 29000" /></div>
+    <div><label asp-for="ColoniaId">Colonia / asentamiento *</label><select asp-for="ColoniaId" data-colonia required disabled><option value="0">Selecciona municipio</option></select><span asp-validation-for="ColoniaId" class="validation"></span></div>
+    <div><label asp-for="Calle">Calle *</label><input asp-for="Calle" autocomplete="address-line1" /></div>
+    <div><label asp-for="NumeroExterior">Número exterior *</label><input asp-for="NumeroExterior" /></div>
+    <div><label asp-for="NumeroInterior">Número interior</label><input asp-for="NumeroInterior" /></div>
+   </div>
+   <div class="form-section-heading owner-heading"><span class="kind-icon small">♙</span><div><h2>Datos del propietario</h2><p>Estos datos se utilizarán para crear tu cuenta <b>administrador de empresa</b>.</p></div></div>
+   <div class="form-grid">
+    <div><label asp-for="Nombre">Nombre(s) *</label><input asp-for="Nombre" autocomplete="given-name" /></div>
+    <div><label asp-for="Paterno">Apellido paterno *</label><input asp-for="Paterno" /></div>
+    <div><label asp-for="Materno">Apellido materno</label><input asp-for="Materno" /></div>
+    <div><label asp-for="Telefono">Teléfono (10 a 15 números) *</label><input asp-for="Telefono" type="tel" inputmode="numeric" placeholder="9611234567" /></div>
+    <div class="field-span"><label asp-for="Correo">Correo electrónico de acceso *</label><input asp-for="Correo" autocomplete="email" type="email" placeholder="propietario@empresa.com" /></div>
+    <div><label asp-for="Contrasena">Contraseña (8+ caracteres, mayúscula, minúscula, número y símbolo) *</label><input asp-for="Contrasena" autocomplete="new-password" type="password" minlength="8" maxlength="128" /></div>
+    <div><label asp-for="Confirmar">Confirmar contraseña *</label><input asp-for="Confirmar" autocomplete="new-password" type="password" /></div>
+   </div>
+   <div class="consent-box"><label class="checkbox-label"><input asp-for="AceptaTerminos" type="checkbox" /> Confirmo que los datos son correctos y acepto los términos para registrar mi empresa y entiendo que se requiere una suscripción mensual pagada para usar CITICIO.</label><span asp-validation-for="AceptaTerminos" class="validation"></span></div>
+   <div class="register-footer"><button type="submit" class="btn btn-primary">Registrar empresa ahora →</button><span class="muted">La empresa se registra y el acceso a la gestión se habilita tras confirmar la mensualidad.</span></div>
+   <p class="muted">¿Querías reservar una cita? <a asp-action="Registrarse">Regístrate como cliente</a>.</p>
+  </form>
+ </div>
+</section>

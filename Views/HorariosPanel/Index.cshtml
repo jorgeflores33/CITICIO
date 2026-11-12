@@ -1,0 +1,24 @@
+@model Citicio.Models.HorarioPanelForm
+@{ViewData["Title"]="Horarios de trabajo";var sucursales=ViewBag.Sucursales as List<DbRow>??new();var empleados=ViewBag.Empleados as List<DbRow>??new();}
+<section class="form-page"><div class="content-head"><span class="eyebrow">AGENDA EMPRESARIAL</span><h1>Horarios de atención y trabajo</h1><p>Configura los días laborables. Las citas deben respetar el horario de la sucursal y del profesional.</p></div>
+<div class="form-card wide-card">
+<form method="get" asp-action="Index" class="form-grid">
+<div><label>Sucursal</label><select name="sucursal" onchange="this.form.submit()">@if(sucursales.Count>1){<option value="0">Selecciona una sucursal</option>}@foreach(var s in sucursales){<option value="@s.I("id_sucursal")" selected="@(s.I("id_sucursal")==Model.IdSucursal)">@s.S("nombre")</option>}</select></div>
+<div><label>Horario de</label><select name="tipo" onchange="this.form.submit()"><option value="sucursal" selected="@(Model.Tipo=="sucursal")">Sucursal</option><option value="empleado" selected="@(Model.Tipo=="empleado")">Empleado</option></select></div>
+@if(Model.Tipo=="empleado"){<div><label>Profesional</label><select name="empleado" onchange="this.form.submit()"><option value="">Seleccionar</option>@foreach(var e in empleados){<option value="@e.I("id_empleado")" selected="@(e.I("id_empleado")==Model.IdEmpleado)">@e.S("nombre")</option>}</select></div>}
+<noscript><button type="submit" class="btn btn-outline">Mostrar horarios</button></noscript>
+</form>
+@if(Model.IdSucursal>0 && (Model.Tipo=="sucursal"||Model.IdEmpleado.HasValue)){
+<form asp-controller="HorariosPanel" asp-action="Guardar" method="post"><div asp-validation-summary="All" class="validation"></div>
+<input asp-for="IdSucursal" type="hidden"/><input asp-for="Tipo" type="hidden"/><input asp-for="IdEmpleado" type="hidden"/>
+@for(int i=0;i<Model.Dias.Count;i++){
+<div class="form-grid" style="padding:12px 0;border-bottom:1px solid #e3e9f4;align-items:center">
+<input asp-for="Dias[i].IdDia" type="hidden"/><input asp-for="Dias[i].Nombre" type="hidden"/>
+<label class="checkbox-label"><input asp-for="Dias[i].Trabaja" type="checkbox"/> @Model.Dias[i].Nombre</label>
+<div><label>Desde</label><input asp-for="Dias[i].Inicio" type="time"/></div>
+<div><label>Hasta</label><input asp-for="Dias[i].Fin" type="time"/></div></div>
+}
+<button type="submit" class="btn btn-primary" style="margin-top:18px">Guardar semana completa</button>
+</form>}
+else{<p class="muted">Selecciona la sucursal y, si corresponde, el profesional.</p>}
+</div></section>

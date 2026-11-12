@@ -1,0 +1,55 @@
+@model GiroCatalogoForm
+@{
+    ViewData["Title"] = "Giros y categorías · Administración CITICIO";
+    var giros = ViewBag.Giros as List<DbRow> ?? new List<DbRow>();
+}
+<section class="content-head">
+  <span class="eyebrow">ADMINISTRADOR GENERAL · CATÁLOGOS</span>
+  <h1>Giros y categorías</h1>
+  <p>Administra las categorías disponibles al registrar empresas. Los cambios se reflejan en los formularios de registro de CITICIO.</p>
+</section>
+<div class="ag-giro-grid">
+  <section class="ag-giro-panel" aria-labelledby="agNuevoGiro">
+    <div class="ag-giro-heading"><span class="kind-icon small">✦</span><div><h2 id="agNuevoGiro">Agregar giro</h2><p>Registra una categoría para los negocios.</p></div></div>
+    <form asp-controller="AdminGeneral" asp-action="CrearGiro" method="post" class="ag-giro-create">
+      @Html.AntiForgeryToken()
+      <div asp-validation-summary="ModelOnly" class="validation"></div>
+      <label asp-for="NombreGiro">Nombre del giro *</label>
+      <input asp-for="NombreGiro" placeholder="Ej. Arquitectura" required minlength="2" maxlength="100" autocomplete="off" />
+      <span asp-validation-for="NombreGiro" class="validation"></span>
+      <label asp-for="Descripcion">Descripción (opcional)</label>
+      <textarea asp-for="Descripcion" rows="4" maxlength="500" placeholder="Describe qué tipo de negocios pertenecen a esta categoría..."></textarea>
+      <span asp-validation-for="Descripcion" class="validation"></span>
+      <button class="btn btn-primary" type="submit">+ Registrar giro</button>
+    </form>
+    <p class="ag-giro-tip">Los giros son compartidos por todas las empresas. No registres dos categorías con el mismo nombre.</p>
+  </section>
+  <section class="ag-giro-panel" aria-labelledby="agGirosRegistrados">
+    <div class="ag-giro-heading"><span class="kind-icon small">▦</span><div><h2 id="agGirosRegistrados">Giros registrados</h2><p>@giros.Count categorías disponibles en el sistema</p></div></div>
+    @if (giros.Count == 0)
+    {
+      <div class="empty-mini">Todavía no existen giros. Registra el primero desde el formulario.</div>
+    }
+    else
+    {
+      <div class="ag-giro-list">
+      @foreach (var giro in giros)
+      {
+        <details class="ag-giro-item">
+          <summary><span><strong>@giro.S("nombre_giro")</strong><small>@giro.S("descripcion")</small></span><span class="ag-giro-edit">Editar</span></summary>
+          <form asp-controller="AdminGeneral" asp-action="ActualizarGiro" method="post" class="ag-giro-edit-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="IdGiro" value="@giro.I("id_giro")" />
+            <label for="giro_nombre_@giro.I("id_giro")">Nombre del giro *</label>
+            <input id="giro_nombre_@giro.I("id_giro")" name="NombreGiro" value="@giro.S("nombre_giro")" required minlength="2" maxlength="100" />
+            <label for="giro_descripcion_@giro.I("id_giro")">Descripción</label>
+            <textarea id="giro_descripcion_@giro.I("id_giro")" name="Descripcion" rows="3" maxlength="500">@giro.S("descripcion")</textarea>
+            <button class="btn btn-outline btn-sm" type="submit">Guardar cambios</button>
+          </form>
+        </details>
+      }
+      </div>
+    }
+  </section>
+</div>
+<div class="ag-notice">Los giros se administran únicamente desde el rol <code>admin_citicio</code>. Las empresas pueden seleccionar las categorías existentes al registrarse y asociarlas desde <a asp-controller="Gestion" asp-action="GiroEmpresa">Categoría de empresa</a>. No se eliminan giros para evitar afectar a empresas registradas.</div>

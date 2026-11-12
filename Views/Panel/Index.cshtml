@@ -1,0 +1,16 @@
+@model DbRow
+@{ViewData["Title"]="Resumen";var sections = new Dictionary<string,string> {
+  ["empresas"]="Empresas",["sucursales"]="Sucursales",["empleados"]="Empleados",["clientes"]="Clientes",["citas"]="Citas",
+  ["resenas"]="Reseñas",["servicios"]="Servicios",["ingresos_servicios_confirmados"]="Pagos servicios",
+  ["cobros_empresas_confirmados"]="Cobros empresas",["ingresos_confirmados"]="Ingresos confirmados"};}
+<section class="content-head"><span class="eyebrow">VISTA GENERAL</span><h1>Bienvenido a tu panel</h1><p>Hola, @(ViewBag.NombreUsuario as string ?? User.Identity?.Name). Consulta el estado de tu operación sin salir de CITICIO.</p></section>
+<div class="dashboard-kpis">
+@if(User.IsInRole("admin_empresa") && !string.IsNullOrWhiteSpace(ViewBag.NombreEmpresa as string)) {
+<article class="kpi-card"><span class="kpi-label">Mi empresa</span><strong>@ViewBag.NombreEmpresa</strong><span class="kpi-accent">CITICIO</span></article>
+}
+@foreach(var kv in Model.Cells.Where(e=>e.Key!="id_sucursal" && !(User.IsInRole("admin_empresa") && (e.Key=="cobros_empresas_confirmados" || e.Key=="ingresos_confirmados" || e.Key=="id_empresa" || e.Key=="empresas")))) {
+ var label=sections.TryGetValue(kv.Key,out var v)?v:kv.Key.Replace('_',' ');
+ <article class="kpi-card"><span class="kpi-label">@label</span><strong>@(kv.Key.Contains("ingresos")||kv.Key.Contains("cobros_empresas_confirmados")?Model.M(kv.Key).ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX")):Model.S(kv.Key))</strong><span class="kpi-accent">↗ CITICIO</span></article>
+}
+</div>
+<div class="panel-info-grid"><div class="info-card"><span class="eyebrow">GESTIÓN DIARIA</span><h2>Tu agenda en orden</h2><p>Revisa las próximas citas, consulta servicios y verifica el historial de pagos.</p><a class="btn btn-primary" asp-controller="Panel" asp-action="Citas">Ver agenda →</a></div><div class="info-card info-card-blue"><span class="eyebrow">CONSULTAS</span><h2>Información de tu organización</h2><p>Reportes, sucursales y colaboradores filtrados según tu perfil.</p><a class="btn btn-white" asp-controller="Panel" asp-action="Reportes">Ver reportes →</a></div></div>

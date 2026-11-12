@@ -1,0 +1,42 @@
+@model EmpresaPerfilPublicoVM
+@using System.Globalization
+@{ var em=Model.Empresa; var id=em.I("id_empresa"); var mx=CultureInfo.GetCultureInfo("es-MX"); ViewData["Title"]=em.S("nombre"); }
+<section class="company-profile">
+  <div class="company-cover">
+    <img src="/Imagenes/Ver?uso=portada_empresa&amp;id=@id" alt="Portada de @em.S("nombre")" loading="eager" onerror="this.style.display='none'" />
+  </div>
+  <div class="company-intro">
+    <div class="company-brand">
+      <img src="/Imagenes/Ver?uso=logo_empresa&amp;id=@id" alt="Logo de @em.S("nombre")" onerror="this.style.display='none'" />
+      <div><span class="eyebrow">NEGOCIO EN CITICIO</span><h1>@em.S("nombre")</h1><p>@(string.IsNullOrWhiteSpace(em.S("descripcion")) ? "Conoce nuestros servicios y agenda tu próxima cita." : em.S("descripcion"))</p></div>
+    </div>
+    <a class="btn btn-outline" asp-controller="Home" asp-action="Empresas">← Explorar empresas</a>
+  </div>
+  <div class="profile-tabs" role="navigation" aria-label="Secciones del perfil"><a href="#servicios">Servicios y precios</a><a href="#sucursales">Sucursales</a><a href="#resenas">Reseñas</a></div>
+  <section id="servicios" class="section-wrapper"><div class="section-heading"><div><span class="eyebrow">LO QUE OFRECEMOS</span><h2>Servicios y precios</h2><p>Precios publicados por la empresa. Elige sucursal y reserva.</p></div><span class="count-pill">@Model.Servicios.Count opciones</span></div>
+    <div class="service-grid">
+    @foreach(var s in Model.Servicios){
+     <article class="service-card">
+       <div class="service-visual"><img src="/Imagenes/Ver?uso=imagen_servicio&amp;id=@s.I("id_servicio")" alt="@s.S("servicio")" loading="lazy" onerror="this.style.display='none'"/><span class="service-duration">◷ @s.I("duracion_minutos") min</span></div>
+       <div class="service-content"><span class="service-kicker">@s.S("sucursal")</span><h3><a asp-controller="ServicioDetalle" asp-action="Index" asp-route-sucursalId="@s.I("id_sucursal")" asp-route-servicioId="@s.I("id_servicio")">@s.S("servicio")</a></h3><p>@s.S("descripcion")</p><div class="service-bottom"><strong>@s.M("precio").ToString("C",mx)</strong>
+       <a class="btn btn-outline btn-sm" asp-controller="ServicioDetalle" asp-action="Index" asp-route-sucursalId="@s.I("id_sucursal")" asp-route-servicioId="@s.I("id_servicio")">Ver detalles</a>
+       <a class="btn btn-primary btn-sm" asp-controller="Citas" asp-action="Nueva" asp-route-servicioId="@s.I("id_servicio")" asp-route-sucursalId="@s.I("id_sucursal")">Agendar cita</a></div>
+       @if(User.IsInRole("cliente")){<form method="post" asp-controller="Cliente" asp-action="Favorito"><input type="hidden" name="servicioId" value="@s.I("id_servicio")"/><button class="text-link" type="submit">♡ Guardar en favoritos</button></form>}
+       else {<a class="text-link" asp-controller="Cuenta" asp-action="Ingresar" asp-route-returnUrl="/Cliente/Favoritos">♡ Guardar en favoritos</a>}
+       </div>
+     </article>
+    }
+    </div>
+    @if(Model.Servicios.Count==0){<div class="empty-state">Esta empresa todavía está preparando su catálogo de servicios.</div>}
+  </section>
+  <section id="sucursales" class="section-wrapper"><div class="section-heading"><div><span class="eyebrow">DÓNDE ENCONTRARNOS</span><h2>Nuestras sucursales</h2></div></div>
+    <div class="company-location-grid">
+    @foreach(var s in Model.Sucursales){<article class="company-location"><div class="company-location-art"><img src="/Imagenes/Ver?uso=foto_sucursal&amp;id=@s.I("id_sucursal")" loading="lazy" alt="Sucursal @s.S("nombre")" onerror="this.style.display='none'"/></div><h3>@s.S("nombre")</h3><p>@s.S("calle") @s.S("numero_exterior"), @s.S("colonia"), @s.S("municipio")</p></article>}
+    </div>
+  </section>
+  <section id="resenas" class="section-wrapper"><div class="section-heading"><div><span class="eyebrow">OPINIONES REALES</span><h2>Reseñas de clientes</h2><p>Solo aparecen reseñas vinculadas a citas completadas.</p></div></div>
+   <div class="company-location-grid">@foreach(var r in Model.Resenas){<article class="company-review"><strong>★ @r.I("calificacion_empresa")/5</strong><p>@(string.IsNullOrWhiteSpace(r.S("comentario"))?"Valoración del servicio.":r.S("comentario"))</p><small>@r.S("sucursal") · @(r.D("fecha_resena").ToString("dd/MM/yyyy"))</small></article>}</div>
+   @if(Model.Resenas.Count==0){<p class="muted">Aún no hay reseñas de citas completadas.</p>}
+   @if(User.IsInRole("cliente")){<a asp-controller="Citas" asp-action="MisCitas" class="btn btn-outline">Mis citas y dejar reseña</a>}
+  </section>
+</section>

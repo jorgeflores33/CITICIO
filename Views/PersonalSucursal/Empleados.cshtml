@@ -1,0 +1,56 @@
+@model List<DbRow>
+@{
+    ViewData["Title"] = "Personal de mi sucursal";
+    var empleadoActual = ViewBag.EmpleadoActual is int n ? n : 0;
+}
+<section class="content-head">
+    <span class="eyebrow">PERSONAL</span>
+    <h1>Personal de mi sucursal</h1>
+    <p>Consulta, registra y edita a los empleados de tu sucursal. También puedes asignar los servicios que realizan.</p>
+    <a class="btn btn-primary" asp-controller="PersonalSucursal" asp-action="Nuevo">+ Registrar empleado</a>
+</section>
+<div class="table-panel">
+    <div class="table-panel-top"><strong>@Model.Count personas</strong></div>
+    <div class="table-overflow">
+        <table class="data-table">
+            <thead><tr>
+                <th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Sucursal</th>
+                <th>Rol</th><th>Estado</th><th>Acciones y servicios</th>
+            </tr></thead>
+            <tbody>
+            @foreach(var e in Model)
+            {
+                var rol = e.S("rol");
+                var esEmpleado = rol == "empleado";
+                var esMiCuenta = e.I("id_empleado") == empleadoActual && rol == "encargado_sucursal";
+                <tr>
+                    <td><strong>@e.S("nombre") @e.S("apellido_paterno") @e.S("apellido_materno")</strong></td>
+                    <td>@e.S("correo")</td>
+                    <td>@e.S("telefono")</td>
+                    <td>@e.S("sucursal")</td>
+                    <td>@(rol switch { "admin_empresa" => "Administrador de empresa", "encargado_sucursal" => "Encargado de sucursal", "empleado" => "Empleado", _ => "Sin acceso" })</td>
+                    <td>@e.S("estatus").Replace('_', ' ')</td>
+                    <td>
+                        <div class="action-row">
+                            @if(esEmpleado)
+                            {
+                                <a class="btn btn-outline btn-sm" asp-controller="PersonalSucursal" asp-action="Editar" asp-route-id="@e.I("id_empleado")">Editar datos</a>
+                                <a class="btn btn-outline btn-sm" asp-controller="PersonalSucursal" asp-action="ServiciosEmpleado" asp-route-id="@e.I("id_empleado")">Servicios que realiza</a>
+                            }
+                            else if(esMiCuenta)
+                            {
+                                <a class="btn btn-outline btn-sm" asp-controller="MiPerfil" asp-action="Index">Editar mi perfil</a>
+                                <a class="btn btn-outline btn-sm" asp-controller="PersonalSucursal" asp-action="ServiciosEmpleado" asp-route-id="@e.I("id_empleado")">Servicios que realizo</a>
+                            }
+                            else
+                            {
+                                <span>Solo consulta</span>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

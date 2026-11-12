@@ -1,0 +1,7 @@
+@model List<DbRow>
+@{ViewData["Title"]="Usuarios · CITICIO";}
+<section class="content-head"><span class="eyebrow">SEGURIDAD · ADMINISTRADOR GENERAL</span><h1>Usuarios</h1><p>Consulta las cuentas y su rol asignado. Las contraseñas y tokens nunca se muestran.</p></section>
+<div class="table-panel"><div class="table-panel-top"><strong>@Model.Count usuarios</strong><span>Últimos 200 registros</span></div><div class="table-overflow"><table class="data-table"><thead><tr><th>ID</th><th>Usuario</th><th>Correo de acceso</th><th>Rol</th><th>Último acceso</th></tr></thead><tbody>
+@foreach(var u in Model){<tr><td>#@u.I("id_usuario")</td><td>@u.S("nombre_usuario")</td><td>@u.S("correo_acceso")</td><td><span class="state-pill">@u.S("nombre_rol").Replace('_',' ')</span></td><td>@(u.D("ultimo_acceso") == DateTime.MinValue?"—":u.D("ultimo_acceso").ToString("dd/MM/yyyy HH:mm"))</td></tr>}
+</tbody></table></div>@if(Model.Count==0){<div class="empty-mini">No existen usuarios registrados.</div>}</div>
+<div class="ag-notice">Por seguridad, esta primera versión permite <strong>consultar</strong> usuarios y roles. No permite convertir una cuenta cualquiera en administrador general desde la web.</div>

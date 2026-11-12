@@ -1,0 +1,30 @@
+@model List<Citicio.Data.DbRow>
+@{ ViewData["Title"]="Mensualidades SPEI por verificar"; }
+<h1>Transferencias pendientes de empresas a CITICIO</h1>
+<p>Confirma cada ingreso en tu cuenta bancaria antes de aprobarlo. La referencia reportada NO demuestra por sí misma que el dinero llegó.</p>
+@if(TempData["Error"] is string error) { <div class="alert alert-error">@error</div> }
+@if(TempData["Ok"] is string ok) { <div class="alert alert-ok">@ok</div> }
+@if(Model.Count==0) { <p>No hay mensualidades SPEI pendientes de revisión.</p> }
+else {<table class="table">
+ <thead><tr><th>Empresa</th><th>Periodo</th><th>Importe</th><th>Referencia</th><th>Revisar</th></tr></thead>
+ <tbody>
+ @foreach(var r in Model) {
+ <tr><td>@r.S("empresa")</td><td>@r.D("periodo_inicio").ToString("dd/MM/yyyy") - @r.D("periodo_fin").ToString("dd/MM/yyyy")</td>
+ <td>@r.M("monto").ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</td>
+ <td>@r.S("referencia")</td><td>
+  <form asp-controller="AdminGeneral" asp-action="ResolverTransferencia" method="post">
+   @Html.AntiForgeryToken()
+   <input type="hidden" name="idSolicitud" value="@(r.S("id_solicitud"))" />
+   <input type="hidden" name="aprobar" value="true" />
+   <label><input type="checkbox" name="abonoVerificado" value="true" required /> Comprobé el ingreso real en el banco</label>
+   <button type="submit" class="btn btn-primary">Aprobar depósito</button>
+  </form>
+  <form asp-controller="AdminGeneral" asp-action="ResolverTransferencia" method="post">
+   @Html.AntiForgeryToken()
+   <input type="hidden" name="idSolicitud" value="@(r.S("id_solicitud"))" />
+   <input type="hidden" name="aprobar" value="false" />
+   <button type="submit" class="btn btn-outline">Rechazar</button>
+  </form>
+ </td></tr>
+ }
+ </tbody></table>}

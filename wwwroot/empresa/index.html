@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><title>CITICIO · Panel empresarial</title>
+<link rel="stylesheet" href="/empresa/styles.css">
+</head><body>
+<section id="loginPage" class="login-page">
+  <a class="return-home" href="/" aria-label="Volver a la página principal CITICIO">← Volver al inicio</a>
+  <div class="login-brand">
+    <div class="brand"><span class="brand-mark">✳</span> CITICIO<span class="brand-dot">.</span></div>
+    <div class="login-story"><span class="overline">GESTIÓN PROFESIONAL</span><h1>Todo tu negocio,<br>en un solo lugar<span class="brand-dot">.</span></h1><p>Organiza las citas, el personal y los servicios de tu empresa con la plataforma CITICIO.</p></div>
+    <div class="story-footer"><span>●</span> Tres roles, un mismo sistema. Tu información bajo control.</div>
+  </div>
+  <div class="login-right"><div class="login-box">
+    <span class="welcome-glyph">✳</span><h2>Bienvenido a CITICIO</h2><p class="muted">Ingresa con tu cuenta empresarial para continuar.</p>
+    <form id="loginForm" autocomplete="on">
+      <label for="loginEmail">Correo electrónico o usuario</label><input id="loginEmail" autocomplete="username" required placeholder="usuario@empresa.com">
+      <label for="loginPass">Contraseña</label><input id="loginPass" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+      <button class="primary login-submit" type="submit" id="loginButton">Iniciar sesión <span>→</span></button>
+    <p><a href="/Seguridad/Recuperar">¿Olvidaste tu contraseña?</a></p></form><div id="loginError" class="error-message" role="alert" hidden></div>
+    <div class="demo-zone"><span>Explorar vista previa (sin base de datos)</span><div class="demo-links"><a href="?demo=admin_empresa">Administrador</a><a href="?demo=encargado_sucursal">Encargado</a><a href="?demo=empleado">Empleado</a></div></div>
+  </div></div>
+</section>
+<div id="appPage" class="shell" hidden>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><span class="brand-mark">✳</span> CITICIO<span class="brand-dot">.</span></div>
+    <div class="sidebar-org"><span class="org-avatar" id="orgAvatar">E</span><div><strong id="orgName">Mi empresa</strong><small id="orgSubtitle">Panel de gestión</small></div><span class="org-chevron">⌄</span></div>
+    <div class="menu-heading">MENU PRINCIPAL</div>
+    <nav id="sideNav" class="side-nav" aria-label="Menú de panel"></nav>
+    <div class="sidebar-bottom"><div class="help-card"><div class="help-symbol">✦</div><strong>Centro de ayuda</strong><p>Administración segura de CITICIO</p><span>Rol validado por el servidor</span></div>
+    <button id="logoutBtn" class="logout-btn" type="button">↪ <span>Salir de la sesión</span></button></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="breadcrumb"><button id="mobileMenu" class="menu-toggle" aria-label="Abrir menú">☰</button><span>CITICIO</span><span class="slash">/</span><strong id="breadcrumbTitle">Resumen</strong></div><div class="top-user"><span id="demoChip" class="demo-chip" hidden>VISTA PREVIA</span><span class="top-date" id="today"></span><div class="user-avatar" id="userAvatar">A</div><div class="top-user-name"><strong id="userName">Usuario</strong><small id="roleTitle">Administrador</small></div></div></header>
+    <div class="content"><div class="page-eyebrow"><span class="online-dot"></span> PANEL DE CONTROL <span class="sep">/</span> <span id="scopeLabel">TU EMPRESA</span></div><div class="page-heading"><div><h1 id="pageTitle">Resumen general</h1><p id="pageDesc">Revisa lo que sucede en tu negocio.</p></div><div id="pageActions"></div></div>
+      <div id="alert" class="alert" hidden></div><div id="panel" aria-live="polite"></div>
+      <footer class="content-footer"><span>© 2026 CITICIO · Panel de empresa</span><span>Administración de citas y servicios</span></footer>
+    </div>
+  </main>
+</div>
+<dialog id="actionDialog" class="dialog"><form method="dialog" id="dialogForm"><div class="dialog-header"><div><span class="overline">CITICIO EMPRESAS</span><h2 id="dialogTitle">Acción</h2></div><button class="dialog-close" value="cancel" aria-label="Cerrar">×</button></div><div id="dialogContent"></div><div class="dialog-actions"><button class="secondary" value="cancel" type="button" id="cancelDialog">Cancelar</button><button type="submit" class="primary" id="saveDialog">Guardar cambios</button></div><p id="dialogError" class="error-message" role="alert" hidden></p></form></dialog>
+<script src="/empresa/app.js" defer></script>
+</body></html>

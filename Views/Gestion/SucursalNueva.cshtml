@@ -1,0 +1,22 @@
+@model SucursalForm
+@{ViewData["Title"]="Nueva sucursal";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">ADMINISTRACIÓN</span><h1>Agregar sucursal</h1><p>La ubicación se obtiene de la colonia, municipio y entidad federativa ya registrados en tu base de datos.</p></div><div class="form-card"><form asp-action="SucursalNueva" method="post" enctype="multipart/form-data"><div asp-validation-summary="All" class="validation"></div>
+@if(User.IsInRole("admin_empresa")){<input type="hidden" asp-for="EmpresaId" />}else{<label asp-for="EmpresaId">Empresa</label><select asp-for="EmpresaId"><option value="0">Seleccionar empresa</option>@foreach(DbRow x in ViewBag.Empresas){<option value="@x.I("id_empresa")">@x.S("nombre")</option>}</select>}
+<label asp-for="Nombre">Nombre de la sucursal</label><input asp-for="Nombre" />
+<div class="form-grid" data-direccion>
+<div><label>Estado o entidad federativa</label><select data-estado required><option value="">Cargando estados...</option></select></div>
+<div><label>Municipio o alcaldía</label><select data-municipio required disabled><option value="">Selecciona estado</option></select></div>
+<div><label>Código postal (opcional para filtrar)</label><input type="text" data-cp inputmode="numeric" maxlength="5" placeholder="Ej. 29000" /></div>
+<div><label asp-for="ColoniaId">Colonia / asentamiento</label><select asp-for="ColoniaId" data-colonia required disabled><option value="0">Selecciona municipio</option></select></div>
+</div>
+<div class="form-grid"><div><label asp-for="Calle">Calle</label><input asp-for="Calle" /></div><div><label asp-for="NumeroExterior">Número exterior</label><input asp-for="NumeroExterior" /></div></div>
+<label asp-for="NumeroInterior">Número interior (opcional)</label><input asp-for="NumeroInterior" />
+<label asp-for="TelefonoSucursal">Teléfono de la sucursal</label><input asp-for="TelefonoSucursal" type="tel" />
+<div class="form-grid"><div><label asp-for="EntreCalle1">Entre calle</label><input asp-for="EntreCalle1" /></div>
+<div><label asp-for="EntreCalle2">Y calle</label><input asp-for="EntreCalle2" /></div></div>
+<label asp-for="ImagenArchivo">Imagen (opcional, máximo 2 MB)</label><input asp-for="ImagenArchivo" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" data-max-image /><small class="muted">JPG, PNG o WebP; se almacena en la base de datos.</small><span asp-validation-for="ImagenArchivo" class="validation"></span>
+<div class="form-section-heading"><h2>Cuenta bancaria receptora de la sucursal</h2><p>Obligatoria para recibir transferencias SPEI. Para tarjetas también se deberá conectar una cuenta verificada en Stripe.</p></div>
+<div class="form-grid"><div><label asp-for="BancoSucursal">Banco</label><input asp-for="BancoSucursal" required /></div>
+<div><label asp-for="TitularSucursal">Titular</label><input asp-for="TitularSucursal" required /></div>
+<div class="field-span"><label asp-for="ClabeSucursal">CLABE de 18 dígitos</label><input asp-for="ClabeSucursal" inputmode="numeric" maxlength="18" minlength="18" autocomplete="off" required /><span asp-validation-for="ClabeSucursal" class="validation"></span></div></div>
+<button class="btn btn-primary" type="submit">Guardar sucursal →</button></form></div></section>

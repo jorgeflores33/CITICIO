@@ -1,0 +1,61 @@
+@model Citicio.Models.ImagenForm
+@{ViewData["Title"]="Guardar imagen";}
+<section class="content-head"><span class="eyebrow">MULTIMEDIA</span><h1>Guardar imagen en CITICIO</h1><p>Las imágenes se almacenan en SQL Server con máximo 2 MiB (2,097,152 bytes). Formatos permitidos: JPEG, PNG o WebP.</p></section>
+<div class="form-card">
+@if (User.IsInRole("admin_empresa")) {
+<h2>Imagen empresarial</h2>
+<p class="muted">Selecciona «Logotipo» o «Imagen de portada» para ver la imagen correcta. Cuando elijas un nuevo archivo aparecerá una vista previa antes de guardarlo.</p>
+<div class="imagen-dos-vistas">
+ <div id="vistaLogoEmpresa" class="imagen-vista">
+  <strong>Logotipo actual</strong>
+  <img class="empresa-preview" alt="Logotipo actual de la empresa" src="/Imagenes/Ver?uso=logo_empresa&amp;id=@Model.IdObjeto&amp;v=@DateTime.UtcNow.Ticks" onerror="this.style.display='none'" />
+ </div>
+ <div id="vistaPortadaEmpresa" class="imagen-vista" hidden>
+  <strong>Portada actual</strong>
+  <img class="empresa-portada-preview" alt="Portada actual de la empresa" src="/Imagenes/Ver?uso=portada_empresa&amp;id=@Model.IdObjeto&amp;v=@DateTime.UtcNow.Ticks" onerror="this.style.display='none'" />
+ </div>
+</div>
+<form asp-action="EliminarLogo" method="post" onsubmit="return confirm('¿Eliminar el logotipo actual?')">
+<button type="submit" class="btn btn-outline">Eliminar logotipo</button>
+</form>
+<form asp-action="EliminarPortada" method="post" onsubmit="return confirm('¿Eliminar la portada actual?')">
+<button type="submit" class="btn btn-outline">Eliminar portada</button>
+</form>
+}
+<form asp-action="Subir" method="post" enctype="multipart/form-data">
+<div asp-validation-summary="All" class="validation"></div>
+<input type="hidden" asp-for="IdObjeto" />
+@if(User.IsInRole("cliente")) {<input type="hidden" asp-for="Uso" /><h2>Foto de cliente</h2>}
+else {<label asp-for="Uso">Tipo de imagen</label><select asp-for="Uso"><option value="logo_empresa">Logotipo de empresa</option><option value="portada_empresa">Imagen de portada</option></select>}
+<label asp-for="Archivo">Selecciona el archivo</label><input asp-for="Archivo" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" data-max-image required />
+<div id="nuevaImagenPreview" class="imagen-vista" hidden><strong>Nueva imagen seleccionada</strong><img id="nuevaImagenImg" class="empresa-preview" alt="Previsualización antes de guardar" /></div>
+<button type="submit" class="btn btn-primary">Guardar imagen →</button>
+</form>
+<div class="ag-notice">Las imágenes se guardan en SQL Server y las imágenes comerciales se muestran desde la base de datos. No se requieren enlaces externos.</div>
+</div>
+
+@section Scripts {
+<script>
+(() => {
+ const selector=document.getElementById('Uso');
+ const archivo=document.getElementById('Archivo');
+ const logo=document.getElementById('vistaLogoEmpresa');
+ const portada=document.getElementById('vistaPortadaEmpresa');
+ const preview=document.getElementById('nuevaImagenPreview');
+ const img=document.getElementById('nuevaImagenImg');
+ let url=null;
+ function actualizar(){if(!selector)return; if(logo)logo.hidden=selector.value!=='logo_empresa';if(portada)portada.hidden=selector.value!=='portada_empresa';}
+ selector?.addEventListener('change',actualizar);
+ actualizar();
+ archivo?.addEventListener('change',()=>{
+   if(url){URL.revokeObjectURL(url);url=null;}
+   const f=archivo.files?.[0];
+   if(preview)preview.hidden=!f;
+   if(!f||!img)return;
+   if(!['image/png','image/jpeg','image/webp'].includes(f.type)||f.size>2097152){preview.hidden=true;return;}
+   url=URL.createObjectURL(f);img.src=url;
+ });
+ window.addEventListener('pagehide',()=>{if(url)URL.revokeObjectURL(url);});
+})();
+</script>
+}

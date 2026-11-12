@@ -1,0 +1,14 @@
+@model List<DbRow>
+@{ ViewData["Title"]="Servicios de mi empresa"; }
+<section class="content-head"><span class="eyebrow">MI EMPRESA</span><h1>Servicios</h1><p>Administra los servicios, precios e imágenes disponibles para tus clientes.</p>
+<a class="btn btn-primary" asp-controller="Gestion" asp-action="ServicioNuevo">+ Crear servicio</a></section>
+<div class="table-panel"><div class="table-panel-top"><strong>@Model.Count servicios</strong><span>Precios en MXN</span></div>
+<div class="table-overflow"><table class="data-table"><thead><tr><th>Imagen</th><th>Nombre del servicio</th><th>Descripción</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>
+@foreach(var s in Model) {
+<tr><td><img class="empresa-thumb" alt="Imagen de @s.S("nombre")" src="/Imagenes/Ver?uso=imagen_servicio&amp;id=@s.I("id_servicio")" onerror="this.style.display='none'" /></td>
+<td><strong>@s.S("nombre")</strong></td><td>@s.S("descripcion")</td><td><strong>@s.M("precio").ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</strong></td>
+<td><div class="empresa-table-actions"><a class="btn btn-outline btn-sm" asp-controller="Gestion" asp-action="ServicioEditar" asp-route-id="@s.I("id_servicio")">Editar</a>
+<form asp-controller="EmpresaAdministracion" asp-action="DesactivarServicio" method="post" onsubmit="return confirm('¿Desactivar este servicio? Las citas anteriores se conservarán.')"><input type="hidden" name="id" value="@s.I("id_servicio")"/><button class="btn btn-outline btn-sm" type="submit">Eliminar</button></form></div></td></tr>
+}</tbody></table></div>
+@if(Model.Count==0){<div class="empty-mini">Aún no tienes servicios. Usa «Crear servicio» para registrar el primero.</div>}
+</div>

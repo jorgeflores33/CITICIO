@@ -1,0 +1,19 @@
+@model EmpresaSucursalEditarForm
+@{ViewData["Title"]="Editar sucursal";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">UBICACIONES</span><h1>Editar sucursal</h1><p>Actualiza los datos de la sucursal sin eliminar su historial.</p></div>
+<div class="form-card wide-card"><form asp-action="EditarSucursal" method="post"><input type="hidden" asp-for="Id"/><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="Nombre">Nombre</label><input asp-for="Nombre" />
+<div class="form-grid" data-direccion data-initial-estado="@ViewBag.EstadoInicial" data-initial-municipio="@ViewBag.MunicipioInicial" data-initial-colonia="@ViewBag.ColoniaInicial">
+<div><label>Estado o entidad federativa</label><select data-estado required><option value="">Cargando...</option></select></div>
+<div><label>Municipio</label><select data-municipio required disabled><option value="">Selecciona estado</option></select></div>
+<div><label>Código postal (filtro opcional)</label><input type="text" data-cp inputmode="numeric" maxlength="5" /></div>
+<div><label asp-for="ColoniaId">Colonia</label><select asp-for="ColoniaId" data-colonia required disabled><option value="">Selecciona municipio</option></select></div>
+</div>
+<div class="form-grid"><div><label asp-for="Calle">Calle</label><input asp-for="Calle"/></div>
+<div><label asp-for="NumeroExterior">Número exterior</label><input asp-for="NumeroExterior"/></div>
+<div><label asp-for="NumeroInterior">Número interior</label><input asp-for="NumeroInterior"/></div>
+<div><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono" type="tel"/></div>
+<div><label asp-for="EntreCalle1">Entre calle</label><input asp-for="EntreCalle1"/></div>
+<div><label asp-for="EntreCalle2">Y calle</label><input asp-for="EntreCalle2"/></div></div>
+<label class="empresa-check"><input asp-for="Activa" type="checkbox"/> Sucursal activa (desmarcar para desactivar)</label>
+<button type="submit" class="btn btn-primary">Guardar sucursal</button> <a asp-action="Sucursales" class="btn btn-outline">Volver</a></form></div></section>

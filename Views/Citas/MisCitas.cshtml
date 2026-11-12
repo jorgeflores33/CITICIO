@@ -1,0 +1,50 @@
+@model List<DbRow>
+@{
+    ViewData["Title"]="Mis citas";
+    var pagadas=ViewBag.Pagadas as Dictionary<int,bool> ?? new Dictionary<int,bool>();
+}
+<section class="content-head"><span class="eyebrow">TU AGENDA</span><h1>Mis citas</h1><p>Consulta tus reservas, su estado y los servicios contratados.</p></section>
+<div class="appointment-list">
+@foreach(var c in Model) {
+    var id=c.I("id_cita");
+    var pagada=pagadas.GetValueOrDefault(id);
+    <article class="appointment-card">
+        <div class="appointment-date"><strong>@c.D("hora_inicio").ToString("dd")</strong><span>@c.D("hora_inicio").ToString("MMM",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</span></div>
+        <div class="appointment-detail">
+            <div class="appointment-top"><strong>@c.S("empresa")</strong><span class="state-pill">@c.S("nombre_estado").Replace("cita_", "")</span>
+                @if(pagada) {<span class="state-pill" style="background:#dcfce7;color:#166534">Pago confirmado</span>}
+            </div>
+            <p>@c.S("sucursal") · Profesional: @c.S("empleado")</p>
+            <span>◷ @c.D("hora_inicio").ToString("dd/MM/yyyy, HH:mm") – @c.D("hora_fin").ToString("HH:mm")</span>
+        </div>
+        <div class="appointment-right">
+            @if(pagada) {
+                <a class="btn btn-outline btn-sm" asp-controller="Citas" asp-action="Comprobante" asp-route-id="@id">Descargar ticket PDF + QR</a>
+            }
+            <strong>@c.M("total_cita").ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</strong>
+            @if(!pagada && c.S("nombre_estado")!="cita_cancelada" && c.S("nombre_estado")!="cita_completada") {
+                <a class="btn btn-outline btn-sm" asp-controller="Spei" asp-action="Pagar" asp-route-citaId="@id">Transferencia SPEI</a>
+                <form method="post" asp-controller="Pago" asp-action="Iniciar">
+                    <input type="hidden" name="citaId" value="@id" />
+                    <button class="btn btn-primary btn-sm" type="submit">Pagar cita con Stripe</button>
+                </form>
+                <small class="payment-hint">El cobro se procesa en la cuenta CITICIO Citas.</small>
+            }
+            @if(c.S("nombre_estado")!="cita_cancelada" && c.S("nombre_estado")!="cita_completada" && c.D("hora_inicio")>Citicio.Services.MexicoClock.Now) {
+                <form method="post" asp-controller="Citas" asp-action="CambiarEstado">
+                    <input type="hidden" name="id" value="@id" /><input type="hidden" name="accion" value="cancelar" />
+                    <button type="submit" class="btn btn-danger btn-sm" data-confirm="¿Cancelar esta cita?">Cancelar cita</button>
+                </form>
+            }
+            @if(c.S("nombre_estado")=="cita_completada") {
+                <a class="btn btn-outline btn-sm" asp-controller="Cliente" asp-action="Reseñar" asp-route-id="@id">Dejar reseña</a>
+            }
+        </div>
+    </article>
+}
+@if(Model.Count==0) {
+    <div class="empty-state"><h2>No tienes citas todavía</h2><p>Busca un servicio y agenda tu primera visita.</p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Explorar servicios →</a>
+    </div>
+}
+</div>

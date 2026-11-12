@@ -1,0 +1,7 @@
+@model ReseñaForm
+@{ViewData["Title"]="Escribir reseña";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">CALIFICA TU EXPERIENCIA</span><h1>Reseña de la cita #@Model.CitaId</h1><p>Tu opinión ayuda a otros clientes a elegir.</p></div><div class="form-card"><form asp-action="Reseñar" method="post"><input asp-for="CitaId" type="hidden" /><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="CalificacionEmpresa">Calificación de empresa (1-5)</label><select asp-for="CalificacionEmpresa"><option value="5">★★★★★ Excelente</option><option value="4">★★★★ Muy buena</option><option value="3">★★★ Regular</option><option value="2">★★ Mala</option><option value="1">★ Muy mala</option></select>
+<label asp-for="CalificacionSucursal">Calificación de sucursal (1-5)</label><select asp-for="CalificacionSucursal"><option value="5">★★★★★ Excelente</option><option value="4">★★★★ Muy buena</option><option value="3">★★★ Regular</option><option value="2">★★ Mala</option><option value="1">★ Muy mala</option></select>
+<label asp-for="Comentario">Comentario</label><textarea asp-for="Comentario" rows="5"></textarea>
+<button type="submit" class="btn btn-primary">Publicar reseña →</button></form></div></section>

@@ -1,0 +1,95 @@
+@inject Citicio.Services.EmpresaIdentidadVisible IdentidadVisible
+@{
+ var isStaff = User.Identity?.IsAuthenticated == true && !User.IsInRole("cliente");
+ var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "";
+ var title = ViewData["Title"]?.ToString() ?? "CITICIO";
+ var current = Context.Request.Path.Value ?? "";
+ var identidad = await IdentidadVisible.LeerAsync(User);
+}
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#1256e4" />
+<title>@title · CITICIO</title>
+<link rel="stylesheet" asp-append-version="true" href="~/css/site.css" />
+@await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="@(isStaff ? "has-sidebar" : "public-page")">
+<header class="topbar">
+  <a asp-controller="Home" asp-action="Index" class="logo" aria-label="CITICIO - Inicio"><span class="logo-mark">✳</span><span>CITICIO<span class="logo-dot">.</span></span></a>
+  @if (!User.Es("admin_empresa","encargado_sucursal","empleado")) {
+  <nav class="top-nav" aria-label="Navegación principal">
+    <a asp-controller="Home" asp-action="Index">Inicio</a>
+    <a asp-controller="Home" asp-action="Empresas" class="@(current.Equals("/Home/Empresas",StringComparison.OrdinalIgnoreCase)||current.Equals("/empresas-servicios",StringComparison.OrdinalIgnoreCase)?"active":"")">Empresas y servicios</a>
+    <a asp-controller="Home" asp-action="Top10">Top 10</a>
+    @if(User.IsInRole("cliente")) {<a asp-controller="Citas" asp-action="MisCitas">Mis citas</a><a asp-controller="Cliente" asp-action="Favoritos">Favoritos</a>}
+  </nav>
+ }
+  <div class="top-actions">
+   @if(User.Identity?.IsAuthenticated == true) {
+    <span class="user-chip"><span class="user-avatar">@(string.IsNullOrWhiteSpace(identidad.Usuario)?"U":identidad.Usuario[..1].ToUpperInvariant())</span><span class="user-name">@identidad.Usuario
+    @if(isStaff){<small class="user-role">@(role switch { "admin_empresa" => "Administrador de empresa", "encargado_sucursal" => "Encargado de sucursal", "empleado" => "Empleado", "admin_citicio" => "Administrador CITICIO", _=>"" })</small>}</span></span>
+    @if(isStaff) {<a class="btn btn-lite btn-sm" asp-controller="@(User.IsInRole("admin_citicio") ? "AdminGeneral" : "Panel")" asp-action="Index">Mi panel</a>}
+    @if(User.Es("admin_empresa","encargado_sucursal","empleado")){<a class="btn btn-lite btn-sm" asp-controller="MiPerfil" asp-action="Index">Editar mi perfil</a>}
+    @if(User.IsInRole("admin_citicio")) {
+      <form asp-controller="Seguridad" asp-action="EnviarVerificacion" method="post"><button class="btn btn-lite btn-sm" type="submit">Verificar correo</button></form>
+    }
+    <form asp-controller="Cuenta" asp-action="Salir" method="post"><button class="btn btn-outline btn-sm" type="submit">Salir</button></form>
+   } else {
+    <a class="btn btn-lite btn-sm" asp-controller="Cuenta" asp-action="Ingresar">Iniciar sesión</a>
+    <a class="btn btn-outline btn-sm" asp-controller="Cuenta" asp-action="RegistrarEmpresa">Registrar empresa</a>
+    <a class="btn btn-primary btn-sm" asp-controller="Cuenta" asp-action="TipoCuenta">Crear cuenta</a>
+   }
+  </div>
+</header>
+@if(isStaff) {
+<aside class="sidebar" aria-label="Opciones del panel">
+ <div class="sidebar-head"><span class="eyebrow">ESPACIO DE TRABAJO</span><div class="role-name">@(role switch { "admin_citicio"=>"Administrador CITICIO", "admin_empresa"=>"Mi empresa", "encargado_sucursal"=>"Mi sucursal", "empleado"=>"Mi agenda", _=>"Panel" })</div></div>
+ <nav class="side-links">
+  @if(!User.IsInRole("empleado")){
+   <a asp-controller="@(User.IsInRole("admin_citicio") ? "AdminGeneral" : "Panel")" asp-action="Index" class="@(current=="/AdminGeneral"||current=="/Panel"?"active":"")"><span>▣</span> Resumen</a>
+  }
+  <a asp-controller="Panel" asp-action="Citas"><span>▤</span> Citas</a>
+  <a asp-controller="Panel" asp-action="Servicios"><span>✦</span> Servicios</a>
+  @if(!User.IsInRole("empleado")) {
+   <a asp-controller="Panel" asp-action="Empleados"><span>♙</span> Empleados</a>
+   <a asp-controller="Panel" asp-action="Sucursales"><span>⌖</span> Sucursales</a>
+   @if(User.Es("admin_empresa","encargado_sucursal")){<a asp-controller="HorariosPanel" asp-action="Index"><span>◷</span> Horarios de trabajo</a>
+   <a asp-controller="DuracionServicios" asp-action="Index"><span>◷</span> Duración de servicios</a>}
+   <a asp-controller="Panel" asp-action="Pagos"><span>▱</span> Pagos servicios</a>
+   <a asp-controller="Panel" asp-action="Resenas"><span>☆</span> Reseñas</a>
+   <a asp-controller="Panel" asp-action="Reportes"><span>▥</span> Reportes</a>
+  }
+  @if(User.IsInRole("admin_citicio")){<a asp-controller="Panel" asp-action="Cobros"><span>◇</span> Cobros empresas</a>}
+  @if(User.IsInRole("admin_empresa")){
+   <a asp-controller="Spei" asp-action="Cuentas"><span>▱</span> Cuentas bancarias</a>
+   <a asp-controller="Imagenes" asp-action="Subir"><span>▧</span> Guardar logotipo</a>
+   <a asp-controller="Spei" asp-action="Pendientes"><span>✓</span> Verificar transferencias</a>
+   <a asp-controller="Suscripcion" asp-action="Index"><span>★</span> Mi suscripción</a>
+  }
+  @if(User.IsInRole("encargado_sucursal")){
+   <a asp-controller="Spei" asp-action="Pendientes"><span>✓</span> Verificar transferencias</a>
+  }
+  @if(User.IsInRole("admin_citicio")){<a asp-controller="Suscripcion" asp-action="Configuracion"><span>⚙</span> Tarifa mensual CITICIO</a>}
+  @if(User.IsInRole("admin_citicio")){
+   <a asp-controller="AdminGeneral" asp-action="Empresas"><span>▦</span> Empresas</a>
+   <a asp-controller="AdminGeneral" asp-action="Giros"><span>▤</span> Giros y categorías</a>
+   <a asp-controller="AdminGeneral" asp-action="Usuarios"><span>♧</span> Usuarios</a>
+   <a asp-controller="AdminGeneral" asp-action="Roles"><span>⚑</span> Roles y permisos</a>
+  }
+ </nav>
+
+</aside>
+}
+<main class="site-main @(isStaff?"panel-main":"")">
+@if(TempData["Ok"] is string ok) {<div class="alert alert-ok" role="status">✓ @ok</div>}
+@if(TempData["Error"] is string err) {<div class="alert alert-error" role="alert">@err</div>}
+@RenderBody()
+</main>
+<footer class="footer @(isStaff?"footer-panel":"")"><span>© CITICIO 2026 · Tu tiempo, mejor organizado.</span><span>Empresas · Servicios · Citas</span></footer>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script defer src="~/js/direcciones.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts",required:false)
+</body></html>

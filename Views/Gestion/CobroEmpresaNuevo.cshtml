@@ -1,0 +1,8 @@
+@model CobroEmpresaForm
+@{ViewData["Title"]="Registrar cobro a empresa";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">ADMINISTRADOR GENERAL</span><h1>Nuevo cobro a empresa</h1><p>Registra la obligación de pago mensual. El estado se guarda como pendiente hasta que una pasarela verificada confirme el cobro.</p></div><div class="form-card"><form asp-action="CobroEmpresaNuevo" method="post"><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="EmpresaId">Empresa</label><select asp-for="EmpresaId"><option value="0">Seleccionar empresa</option>@foreach(DbRow r in ViewBag.Empresas){<option value="@r.I("id_empresa")">@r.S("nombre")</option>}</select>
+<label asp-for="Monto">Importe MXN</label><input asp-for="Monto" type="number" step="0.01" min="0.01" />
+<div class="form-grid"><div><label asp-for="Inicio">Inicio del periodo</label><input asp-for="Inicio" type="date" /></div><div><label asp-for="Fin">Fin del periodo</label><input asp-for="Fin" type="date" /></div></div>
+<label asp-for="Vencimiento">Fecha de vencimiento</label><input asp-for="Vencimiento" type="date" />
+<button class="btn btn-primary" type="submit">Registrar cobro pendiente →</button></form></div></section>

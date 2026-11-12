@@ -1,0 +1,22 @@
+@model RegistroForm
+@{ViewData["Title"]="Crear cuenta";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">ÚNETE A CITICIO</span><h1>Crea tu cuenta de cliente</h1><p>¿Quieres registrar un negocio? <a asp-action="RegistrarEmpresa">Registra tu empresa aquí.</a> Las cuentas de empleados son creadas por administradores.</p></div>
+<div class="form-card wide-card"><form method="post" asp-action="Registrarse"><div asp-validation-summary="ModelOnly" class="validation"></div>
+ <div class="form-grid"><div><label asp-for="Nombre">Nombre(s)</label><input asp-for="Nombre" /><span asp-validation-for="Nombre" class="validation"></span></div>
+ <div><label asp-for="Paterno">Apellido paterno</label><input asp-for="Paterno" /></div><div><label asp-for="Materno">Apellido materno</label><input asp-for="Materno" /></div>
+ <div><label asp-for="FechaNacimiento">Fecha de nacimiento</label><input asp-for="FechaNacimiento" type="date" /></div>
+ <div><label asp-for="LadaPais">País y lada</label><select asp-for="LadaPais" id="ladaPais"><option value="+52">México (+52)</option><option value="+1">Estados Unidos / Canadá (+1)</option><option value="+57">Colombia (+57)</option><option value="+54">Argentina (+54)</option><option value="+34">España (+34)</option><option value="+51">Perú (+51)</option><option value="+502">Guatemala (+502)</option><option value="+503">El Salvador (+503)</option><option value="+504">Honduras (+504)</option></select></div>
+ <div><label asp-for="Telefono">Teléfono (solo números)</label><input asp-for="Telefono" placeholder="9611234567" inputmode="numeric" /></div>
+ <div><label asp-for="Correo">Correo electrónico</label><input asp-for="Correo" type="email" /></div>
+ <div><label asp-for="Contrasena">Contraseña (8+ caracteres, mayúscula, minúscula, número y símbolo)</label><input asp-for="Contrasena" type="password" minlength="8" maxlength="128" /></div>
+ <div><label asp-for="Confirmar">Confirmar contraseña</label><input asp-for="Confirmar" type="password" /></div>
+ </div><div class="consent-box"><label class="checkbox-label"><input asp-for="AceptaWhatsapp" type="checkbox" /> Deseo recibir confirmaciones y recordatorios de CITICIO por WhatsApp.</label><div><label asp-for="Whatsapp">WhatsApp con código de país (opcional salvo que aceptes)</label><input asp-for="Whatsapp" placeholder="+529611234567" title="Incluye la lada internacional" /></div></div>
+ <button type="submit" class="btn btn-primary">Crear mi cuenta →</button><p class="muted">¿Ya tienes cuenta? <a asp-action="Ingresar">Inicia sesión</a>.</p></form></div></section>
+
+@section Scripts {<script>
+(()=>{const lada=document.getElementById('ladaPais'), phone=document.getElementById('Telefono'), whats=document.getElementById('Whatsapp'), consent=document.getElementById('AceptaWhatsapp');
+if(!lada||!phone||!whats||!consent)return;
+let edited=false; whats.addEventListener('input',()=>{edited=true;});
+const sync=()=>{if(!edited){whats.value=lada.value+phone.value.replace(/[^0-9]/g,'');}};
+phone.addEventListener('input',sync); lada.addEventListener('change',sync); consent.addEventListener('change',sync); sync();
+})();</script>}

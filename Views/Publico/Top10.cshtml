@@ -1,0 +1,13 @@
+@{ Layout = "_LayoutEmpresaPublico"; }
+@{
+    ViewData["Title"] = "Top 10";
+    ViewData["Pagina"] = "top10";
+}
+<section class="public-container">
+  <span class="page-kicker">EMPRESAS DESTACADAS</span>
+  <h1>Top 10 de empresas en CITICIO</h1>
+  <p class="public-lede">Empresas con servicios activos, clasificadas por citas completadas y reseñas verificadas.</p>
+  <div id="resultsStatus" role="status" class="state-message">Consultando las estadísticas…</div>
+  <div id="resultsGrid" class="results-grid" data-top10="true" aria-live="polite"></div>
+</section>
+@section Scripts {<script src="~/js/publico.js" defer asp-append-version="true"></script>}

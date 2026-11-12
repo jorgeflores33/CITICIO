@@ -1,0 +1,15 @@
+@{ Layout = "_LayoutEmpresaPublico"; }
+@{
+    ViewData["Title"] = "Empresas y servicios";
+    ViewData["Pagina"] = "catalogo";
+}
+<section class="public-container">
+  <span class="page-kicker">EXPLORA CITICIO</span>
+  <h1>Empresas y servicios</h1>
+  <p class="public-lede">Busca por nombre, categoría, empresa o servicio. Reconocemos acentos, variantes y palabras incompletas.</p>
+  <form id="catalogoForm" class="public-search" action="/empresas-servicios" method="get"><input type="search" name="texto" id="catalogoTexto" placeholder="Buscar por servicio, empresa o sucursal" maxlength="150" aria-label="Servicio, empresa o sucursal"><button type="submit">Buscar servicios</button></form>
+  <form id="favoritosToken" hidden>@Html.AntiForgeryToken()</form>
+  <div id="resultsStatus" role="status" class="state-message">Consultando catálogo…</div>
+  <div id="resultsGrid" class="results-grid" aria-live="polite"></div>
+</section>
+@section Scripts {<script src="~/js/publico.js" defer asp-append-version="true"></script>}

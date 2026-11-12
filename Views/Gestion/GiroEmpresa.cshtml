@@ -1,0 +1,6 @@
+@model GiroEmpresaForm
+@{ViewData["Title"]="Categoría de empresa";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">CATÁLOGO PÚBLICO</span><h1>Asignar categoría a empresa</h1><p>Los clientes podrán filtrar por giro una vez que la empresa tenga una categoría seleccionada.</p></div><div class="form-card"><form asp-action="GiroEmpresa" method="post"><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="EmpresaId">Empresa</label><select asp-for="EmpresaId"><option value="0">Selecciona empresa</option>@foreach(DbRow r in ViewBag.Empresas){<option value="@r.I("id_empresa")">@r.S("nombre")</option>}</select>
+<label asp-for="GiroId">Categoría</label><select asp-for="GiroId"><option value="0">Selecciona giro</option>@foreach(DbRow r in ViewBag.Giros){<option value="@r.I("id_giro")">@r.S("nombre_giro")</option>}</select>
+<button class="btn btn-primary" type="submit">Vincular categoría →</button></form></div></section>

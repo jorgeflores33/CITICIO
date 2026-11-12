@@ -1,0 +1,13 @@
+@model ReservaForm
+@{ViewData["Title"]="Agendar cita"; DbRow servicio=(DbRow)ViewBag.Servicio;}
+<section class="form-page"><div class="content-head"><span class="eyebrow">TU PRÓXIMA RESERVA</span><h1>Agendar cita</h1><p>Selecciona fecha y hora y consulta a los especialistas disponibles.</p></div>
+<div class="booking-layout"><div class="form-card">
+<form asp-action="Nueva" method="post"><input asp-for="SucursalId" type="hidden" /><input asp-for="ServicioId" type="hidden" /><div asp-validation-summary="All" class="validation"></div>
+<div class="form-grid"><div><label asp-for="Fecha">Fecha</label><input asp-for="Fecha" type="date" min="@Citicio.Services.MexicoClock.Today.ToString("yyyy-MM-dd")" /></div><div><label asp-for="Hora">Hora de inicio</label><input asp-for="Hora" type="time" step="900" /></div></div>
+<button type="button" class="btn btn-outline btn-block" id="btnCheck" data-url="@Url.Action("Disponibilidad","Citas")">Consultar disponibilidad</button>
+<label asp-for="EmpleadoId">Profesional disponible</label><select asp-for="EmpleadoId" required><option value="">Consulta la disponibilidad primero</option></select>
+<p class="help-text" id="availabilityStatus">Los horarios dependen del empleado y de la sucursal.</p>
+<label asp-for="Observaciones">Observaciones (opcional)</label><textarea asp-for="Observaciones" rows="3" placeholder="¿Algo que debamos saber?"></textarea>
+<button class="btn btn-primary btn-block" type="submit">Confirmar mi reserva →</button>
+</form></div><aside class="booking-summary"><div class="summary-icon">✳</div><span class="eyebrow">RESUMEN DE RESERVA</span><h2>@servicio.S("servicio")</h2><p>@servicio.S("sucursal")</p><div class="summary-line"><span>Duración</span><strong>@servicio.I("duracion_minutos") minutos</strong></div><div class="summary-line"><span>Precio del servicio</span><strong>@servicio.M("precio").ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</strong></div><div class="summary-note">La reservación se guarda en CITICIO. Si habilitas pagos por Stripe, podrás pagar desde “Mis citas”.</div></aside></div></section>
+@section Scripts {<script>window.CITICIO_BOOKING=true;</script>}

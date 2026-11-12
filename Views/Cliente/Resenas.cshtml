@@ -1,0 +1,5 @@
+@model List<DbRow>
+@{ViewData["Title"]="Mis reseñas";}
+<section class="content-head"><span class="eyebrow">TU OPINIÓN CUENTA</span><h1>Mis reseñas</h1><p>Reseñas de tus citas completadas.</p></section>
+<div class="favorites-list">@foreach(var r in Model){<article class="favorite-card"><div class="fav-icon">★</div><div><h3>@r.S("sucursal") · Cita #@r.I("id_cita")</h3><p>@r.S("comentario")</p><small>Empresa: @r.I("calificacion_empresa")/5 · Sucursal: @r.I("calificacion_sucursal")/5</small></div></article>}</div>
+@if(Model.Count==0){<div class="empty-state">Todavía no tienes reseñas.</div>}

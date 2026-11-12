@@ -1,0 +1,131 @@
+@model DbRow
+@{
+    ViewData["Title"] = "Mensualidad CITICIO";
+    Layout = "_LayoutEmpresaPublico";
+    var activa = Model.B("suscripcion_activa");
+    var precio = Model.M("precio_mensual");
+    var puede = ViewBag.PuedePagar is bool b && b;
+    var listo = ViewBag.StripeDisponible is bool p && p;
+    var problemaStripe = ViewBag.StripeError as string;
+    var api = Context.Request.Path.StartsWithSegments("/EmpresaSuscripcion");
+    var pagarUrl = api ? "/EmpresaSuscripcion/Pagar" : "/Suscripcion/Pagar";
+    var cancelarUrl = api ? "/EmpresaSuscripcion/CancelarRenovacion" : "/Suscripcion/CancelarRenovacion";
+    var salirUrl = api ? "/EmpresaSuscripcion/Salir" : "/Cuenta/Salir";
+}
+<style>
+  .citicio-pago-seccion { margin-top: 22px; border: 1px solid #dbe6fb; border-radius: 14px; padding: 22px; background: #f8faff; }
+  .citicio-pago-metodo { display:flex; gap:13px; align-items:center; padding:14px; border-radius: 10px; border:1px solid #cfddf7; background:white; margin-bottom:17px; }
+  .citicio-pago-icono { width:42px; height:42px; flex-shrink:0; display:grid; place-items:center; border-radius:10px; background:#e8efff; color:#144cce; font-size:23px; }
+  .citicio-pago-metodo strong {display:block; color:#152e58; font-size:15px; }
+  .citicio-pago-metodo small { display:block; margin-top:4px; color:#617699; font-size:12px; }
+  .citicio-renovar { display:flex; align-items:flex-start; gap:10px; margin:12px 0 18px; color:#25416c; font-size:13px; line-height:1.5; }
+  .citicio-renovar input { margin-top:2px; width:17px; height:17px; flex-shrink:0; }
+  .citicio-pagar-boton { display:flex; justify-content:center; align-items:center; gap:8px; width:100%; padding:14px 18px; border:0; border-radius:10px; background:#1a54df; color:#fff; font-size:15px; font-weight:750; cursor:pointer; }
+  .citicio-pagar-boton:not(:disabled):hover { background:#113fb0; }
+  .citicio-pagar-boton:disabled { background:#9eafd2; cursor:not-allowed; }
+  .citicio-pago-aviso { margin:12px 0 0; color:#516b94; font-size:12px; line-height:1.6; }
+  .citicio-pago-pendiente { padding:12px 14px; background:#fff6eb; border:1px solid #f0dab9; border-radius:9px; color:#754a12; font-size:13px; line-height:1.55; margin-top:14px; }
+</style>
+<section class="content-head">
+  <span class="eyebrow">SUSCRIPCIÓN EMPRESARIAL</span>
+  <h1>Mensualidad de CITICIO</h1>
+  <p>@Model.S("empresa") · Tarifa única mensual, sin promociones, descuentos ni anuncios.</p>
+</section>
+<div class="form-card wide-card">
+  @if (TempData["Error"] is string error && !string.IsNullOrWhiteSpace(error))
+  {
+      <div class="alert alert-error" role="alert">@error</div>
+  }
+  @if (TempData["Ok"] is string ok && !string.IsNullOrWhiteSpace(ok))
+  {
+      <div class="alert alert-ok" role="status">@ok</div>
+  }
+  @if (activa)
+  {
+      <div class="alert alert-ok">Mensualidad vigente hasta el @Model.D("vigencia_hasta").ToString("dd/MM/yyyy").</div>
+      <p>Tu empresa tiene acceso a las herramientas de CITICIO durante el periodo cubierto.</p>
+  }
+  else
+  {
+      <div class="alert alert-error">Debes pagar la mensualidad antes de entrar al panel de tu empresa.</div>
+  }
+  <div class="empresa-plan">
+      <span class="eyebrow">TU PLAN</span><h2>Plan mensual CITICIO</h2>
+      <p>Tarifa fija, sin promociones.</p>
+      <strong>@precio.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("es-MX")) MXN / mes</strong>
+      @if(activa){
+          <p><strong>Estatus:</strong> Vigente hasta el @Model.D("vigencia_hasta").ToString("dd/MM/yyyy")</p>
+          <p><strong>Renovación:</strong> @(Model.B("renovacion_automatica") ? "Automática" : "Manual (sin cobros automáticos futuros)")</p>
+      }
+      @if(activa && puede){
+        <form action="@cancelarUrl" method="post" onsubmit="return confirm('¿Cancelar la renovación automática futura? El periodo pagado permanecerá vigente.')">
+          @Html.AntiForgeryToken()
+          <button type="submit" class="btn btn-outline">Cancelar suscripción</button>
+        </form>
+        <p class="muted">Cancelar detiene las futuras renovaciones automáticas. No elimina ni devuelve el periodo ya pagado. Si tu plan es manual, no habrá cobros automáticos que cancelar.</p>
+      }
+  </div>
+
+  @if (!activa && puede && precio > 0)
+  {
+      <div class="citicio-pago-seccion">
+          <h3 style="margin:0 0 13px;color:#152e58;">Pagar suscripción</h3>
+          <div class="citicio-pago-metodo">
+              <span class="citicio-pago-icono" aria-hidden="true">💳</span>
+              <div>
+                  <strong>Tarjeta de débito o crédito</strong>
+                  <small>El formulario seguro de tarjeta se abrirá en Stripe Checkout.</small>
+              </div>
+          </div>
+          <form action="@pagarUrl" method="post">
+              @Html.AntiForgeryToken()
+              <label class="citicio-renovar">
+                  <input type="checkbox" name="RenovacionAutomatica" value="true" />
+                  <span>Autorizo el cobro automático de esta tarifa cada mes. Si no lo selecciono, pagaré manualmente el siguiente mes.</span>
+              </label>
+              @if (listo)
+              {
+                  <button type="submit" class="citicio-pagar-boton">🔒 Pagar mensualidad</button>
+                  <p class="citicio-pago-aviso">Te redirigiremos a Stripe para introducir los datos de tu tarjeta. CITICIO no almacena el número ni el CVV.</p>
+              }
+              else
+              {
+                  <button type="button" class="citicio-pagar-boton" disabled aria-disabled="true">🔒 Pagar mensualidad</button>
+                  <div class="citicio-pago-pendiente" role="status">
+                      @(string.IsNullOrWhiteSpace(problemaStripe)
+                          ? "El administrador de CITICIO debe completar la configuración de Stripe antes de habilitar el pago con tarjeta."
+                          : problemaStripe)
+                  </div>
+              }
+          </form>
+      </div>
+  }
+  else if (!activa && !puede)
+  {
+      <p>Solicita al administrador de tu empresa que realice la mensualidad.</p>
+  }
+  else if (!activa)
+  {
+      <p>El administrador general de CITICIO debe establecer una tarifa mensual mayor a cero antes de habilitar el cobro.</p>
+  }
+
+  @if (activa && puede && listo && !Model.B("renovacion_automatica") && !string.IsNullOrWhiteSpace(Model.S("stripe_subscription_id")))
+  {
+      <form action="@pagarUrl" method="post">
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="RenovacionAutomatica" value="true" />
+          <button type="submit" class="btn btn-outline">Volver a activar renovación automática</button>
+      </form>
+      <p class="muted">Stripe verificará el estado de la suscripción; no se creará otro cargo si continúa vigente.</p>
+  }
+  @if (activa)
+  {
+      <a class="btn btn-outline" href="@(api ? "/empresa/panel" : "/Panel")">Ir a mi panel</a>
+  }
+  <div style="margin-top:1.5rem">
+      <form action="@salirUrl" method="post">
+          @Html.AntiForgeryToken()
+          <button type="submit" class="btn btn-outline">Cerrar sesión y volver al inicio</button>
+      </form>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+@model Citicio.Models.DuracionServicioForm
+@{ViewData["Title"]="Duración de servicios";var sucursales=ViewBag.Sucursales as List<DbRow>??new();var servicios=ViewBag.Servicios as List<DbRow>??new();}
+<section class="form-page"><div class="content-head"><span class="eyebrow">AGENDA</span><h1>Duración por servicio</h1><p>Los minutos se aplican al agendar. Una cita debe finalizar antes de que el profesional atienda otra.</p></div>
+<div class="form-card wide-card"><form method="get" asp-action="Index"><label>Sucursal</label><select name="sucursal" onchange="this.form.submit()"><option value="0">Seleccionar sucursal</option>@foreach(var b in sucursales){<option value="@b.I("id_sucursal")" selected="@(Model.IdSucursal==b.I("id_sucursal"))">@b.S("nombre")</option>}</select>
+<noscript><button type="submit">Mostrar servicios</button></noscript></form>
+@if(Model.IdSucursal>0){<form asp-controller="DuracionServicios" asp-action="Guardar" method="post"><div asp-validation-summary="All" class="validation"></div><input asp-for="IdSucursal" type="hidden"/>
+<label asp-for="IdServicio">Servicio</label><select asp-for="IdServicio" id="duracionServicio"><option value="0">Selecciona un servicio</option>@foreach(var s in servicios){<option value="@s.I("id_servicio")" data-minutos="@s.I("duracion_minutos")">@s.S("nombre")</option>}</select>
+<label asp-for="Minutos">Duración en minutos (5 a 720)</label><input asp-for="Minutos" type="number" min="5" max="720" step="5" id="duracionMinutos"/>
+<button class="btn btn-primary" type="submit">Guardar duración</button></form>
+@if(servicios.Count==0){<p class="muted">Primero asigna el servicio a un empleado de esta sucursal para habilitarlo.</p>}}
+</div></section>
+@section Scripts {<script>document.getElementById('duracionServicio')?.addEventListener('change',function(){const n=this.selectedOptions[0]?.dataset.minutos; if(n)document.getElementById('duracionMinutos').value=n;});</script>}

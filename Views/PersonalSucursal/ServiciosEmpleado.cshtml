@@ -1,0 +1,41 @@
+@model Citicio.Models.EmpresaServiciosEmpleadoForm
+@{
+    ViewData["Title"] = "Servicios del trabajador";
+    var lista = ViewBag.Servicios as List<DbRow> ?? new List<DbRow>();
+}
+<section class="form-page">
+    <div class="content-head">
+        <span class="eyebrow">SERVICIOS ASIGNADOS</span>
+        <h1>Servicios que realiza @ViewBag.NombreEmpleado</h1>
+        <p>Selecciona los servicios que puede ofrecer. CITICIO los habilitará automáticamente en <strong>@ViewBag.NombreSucursal</strong>.</p>
+    </div>
+    <div class="form-card wide-card">
+        <form method="post" asp-controller="PersonalSucursal" asp-action="ServiciosEmpleado">
+            <input type="hidden" asp-for="EmpleadoId" />
+            <div asp-validation-summary="All" class="validation"></div>
+            @if(lista.Count == 0)
+            {
+                <p>Tu empresa todavía no tiene servicios activos. Solicita al administrador de la empresa que registre uno.</p>
+            }
+            else
+            {
+                @foreach(var s in lista)
+                {
+                    <label class="empresa-check">
+                        @if (Model.Servicios.Contains(s.I("id_servicio")))
+                        {
+                            <input type="checkbox" name="Servicios" value="@s.I("id_servicio")" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="Servicios" value="@s.I("id_servicio")" />
+                        }
+                        @s.S("nombre")
+                    </label>
+                }
+            }
+            <button type="submit" class="btn btn-primary">Guardar servicios</button>
+            <a asp-controller="PersonalSucursal" asp-action="Empleados" class="btn btn-outline">Cancelar</a>
+        </form>
+    </div>
+</section>

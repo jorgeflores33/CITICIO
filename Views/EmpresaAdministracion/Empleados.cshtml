@@ -1,0 +1,19 @@
+@model List<DbRow>
+@{ViewData["Title"]="Empleados";}
+<section class="content-head"><span class="eyebrow">PERSONAL</span><h1>Empleados</h1><p>Registra, actualiza y administra qué servicios realiza cada trabajador.</p>
+<a asp-controller="Gestion" asp-action="EmpleadoNuevo" class="btn btn-primary">+ Registrar empleado</a></section>
+<div class="table-panel"><div class="table-panel-top"><strong>@Model.Count empleados</strong><span>Personal de tu empresa</span></div>
+<div class="table-overflow"><table class="data-table"><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Sucursal</th><th>Rol</th><th>Estatus</th><th>Acciones y servicios</th></tr></thead><tbody>
+@foreach(var e in Model) {
+<tr><td><strong>@e.S("nombre") @e.S("apellido_paterno") @e.S("apellido_materno")</strong></td><td>@e.S("correo")</td><td>@e.S("telefono")</td><td>@e.S("sucursal")</td>
+<td>@(e.S("rol") switch { "admin_empresa"=>"Administrador de empresa", "encargado_sucursal"=>"Encargado de sucursal", "empleado"=>"Empleado", _=>"Sin acceso" })</td>
+<td><span class="state-pill">@(e.S("estatus")=="empleado_activo"?"Activo":"Inactivo")</span></td>
+<td><div class="empresa-table-actions">@if(e.S("rol")!="admin_empresa") {<a class="btn btn-outline btn-sm" asp-action="EditarEmpleado" asp-route-id="@e.I("id_empleado")">Editar</a>
+<a class="btn btn-outline btn-sm" asp-action="ServiciosEmpleado" asp-route-id="@e.I("id_empleado")">Servicios que realiza</a>
+@if(e.S("estatus")=="empleado_activo") {
+<form method="post" asp-action="DesactivarEmpleado" onsubmit="return confirm('¿Desactivar el acceso de este empleado? Su historial se conservará.')"><input type="hidden" name="id" value="@e.I("id_empleado")"/><button type="submit" class="btn btn-outline btn-sm">Eliminar</button></form>
+}
+} else {<span class="muted">Cuenta administradora</span>}</div></td></tr>
+}</tbody></table></div>
+@if(Model.Count==0){<div class="empty-mini">No hay empleados registrados. Agrega personal con «Registrar empleado».</div>}
+</div>

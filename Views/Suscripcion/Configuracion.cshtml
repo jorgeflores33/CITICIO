@@ -1,0 +1,17 @@
+@model Citicio.Models.ConfiguracionMensualForm
+@{ViewData["Title"]="Cuenta bancaria y tarifa CITICIO";}
+<section class="content-head"><span class="eyebrow">ADMINISTRADOR GENERAL</span><h1>Configurar la mensualidad</h1><p>Una tarifa fija para todas las empresas. Sin promociones ni publicidad pagada.</p></section>
+<div class="form-card wide-card">
+ <form asp-controller="Suscripcion" asp-action="Configuracion" method="post">
+  <div asp-validation-summary="All" class="validation"></div>
+  <div class="form-grid">
+   <div><label asp-for="TarifaMensual">Tarifa mensual MXN *</label><input asp-for="TarifaMensual" type="number" min="1" step="0.01" required /></div>
+   <div><label asp-for="BancoPersonal">Nombre del banco personal *</label><input asp-for="BancoPersonal" required /></div>
+   <div><label asp-for="TitularPersonal">Titular de la cuenta *</label><input asp-for="TitularPersonal" required /></div>
+   <div><label asp-for="ClabePersonal">CLABE personal (18 dígitos) *</label><input asp-for="ClabePersonal" minlength="18" maxlength="18" inputmode="numeric" autocomplete="off" required /><span asp-validation-for="ClabePersonal" class="validation"></span></div>
+  </div>
+  @if(!string.IsNullOrWhiteSpace(Model.ClabeEnmascarada)){<p class="muted">Cuenta configurada: @Model.ClabeEnmascarada. Para cambiar cualquier campo, vuelve a escribir la CLABE.</p>}
+  <button class="btn btn-primary">Guardar tarifa y cuenta</button>
+ </form>
+ <p class="muted">Stripe verifica la titularidad por separado. CITICIO no almacena números completos de tarjeta ni CVV. Cambiar la tarifa no cambia automáticamente los contratos Stripe ya creados.</p>
+</div>

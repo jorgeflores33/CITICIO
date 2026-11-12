@@ -1,0 +1,8 @@
+@model HomeVM
+@{ViewData["Title"]="Top 10";}
+<section class="content-head"><span class="eyebrow">RANKING REAL</span><h1>Top 10 de empresas</h1><p>Clasificación de empresas por citas completadas y valoraciones verificadas.</p></section>
+@if(ViewBag.Error is string error) {<div class="alert alert-error" role="alert">@error</div>}
+<div class="ranking-list">
+@for(int i=0;i<Model.Top.Count;i++){var r=Model.Top[i];<article class="ranking-row"><div class="big-rank">@(i+1)</div><div class="ranking-info"><a asp-controller="Directorio" asp-action="Empresa" asp-route-id="@r.I("id_empresa")"><strong>@r.S("empresa")</strong></a><span>@r.I("sucursales") sucursales · <a asp-controller="Directorio" asp-action="Empresa" asp-route-id="@r.I("id_empresa")">Ver perfil →</a></span></div><div class="ranking-detail"><strong>@r.I("citas_completadas")</strong><span>Citas completas</span></div><div class="ranking-detail"><strong>★ @(string.IsNullOrWhiteSpace(r.S("calificacion_promedio"))?"—":r.S("calificacion_promedio"))</strong><span>@r.I("cantidad_resenas") reseñas</span></div></article>}
+@if(Model.Top.Count==0){<div class="empty-state">Sin empresas publicadas por el momento.</div>}
+</div>

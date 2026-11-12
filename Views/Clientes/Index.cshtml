@@ -1,0 +1,49 @@
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#175e78" />
+  <meta name="description" content="CITICIO: servicios, empresas y citas en un mismo lugar." />
+  <title>CITICIO · Citas a tu ritmo</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="nav-wrap container">
+      <a href="#inicio" class="brand" data-route="inicio" aria-label="CITICIO, ir al inicio">
+        <span class="brand-icon" aria-hidden="true">✳</span><span>CITICIO</span>
+      </a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#inicio" data-route="inicio" class="nav-item active">Inicio</a>
+        <a href="#empresas" data-route="empresas" class="nav-item">Empresas</a>
+        <a href="#servicios" data-route="servicios" class="nav-item">Servicios</a>
+        <a href="#top10" data-route="top10" class="nav-item">Top 10</a>
+        <a href="#citas" data-route="citas" class="nav-item">Mis citas</a>
+      </nav>
+      <div class="account-area" id="account-area">
+        <button class="btn btn-ghost" data-action="login">Iniciar sesión</button>
+        <button class="btn btn-primary small" data-action="registro">Crear cuenta <span aria-hidden="true">↗</span></button>
+      </div>
+      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" data-action="menu">☰</button>
+    </div>
+  </header>
+  <main id="contenido" tabindex="-1">
+    <div class="container" id="app" aria-live="polite"><div class="loading-block">Cargando CITICIO…</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><div class="brand footer-brand"><span class="brand-icon">✳</span> CITICIO</div><p>Lo que necesitas. Cuando lo necesitas.</p></div>
+      <div class="footer-right"><span>Citas a tu ritmo.</span><span>© <span id="year"></span> CITICIO</span></div>
+    </div>
+  </footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="modal-root"></div>
+  <script src="/carousel.js"></script>
+  <script src="/app.js" defer></script>
+</body>
+</html>

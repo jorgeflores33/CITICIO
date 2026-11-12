@@ -1,0 +1,29 @@
+@model List<DbRow>
+@{ViewData["Title"]="Verificar transferencias SPEI";var money=System.Globalization.CultureInfo.GetCultureInfo("es-MX");}
+<section class="content-head"><span class="eyebrow">PAGOS RECIBIDOS POR TU EMPRESA</span><h1>Verificar transferencias SPEI</h1>
+<p>Confirma solo las transferencias cuyo depósito se encuentre acreditado en la cuenta bancaria real de tu empresa.</p></section>
+<div class="ag-notice">CITICIO no comprueba automáticamente movimientos bancarios y no recibe el dinero. La clave de rastreo no basta para aprobar un pago. Puedes verificar el <a href="https://www.banxico.org.mx/cep/" target="_blank" rel="noopener noreferrer">CEP de Banco de México</a> y revisar el movimiento en tu banca empresarial.</div>
+@if(Model.Count==0){<div class="empty-state"><h2>No hay transferencias pendientes</h2><p>Cuando un cliente reporte una transferencia aparecerá aquí.</p></div>}
+@foreach(var t in Model){
+ <article class="form-card spei-review">
+  <div class="appointment-top"><div><h2>Transferencia #@t.S("id_transferencia")</h2><p>@t.S("cliente_nombre") @t.S("cliente_apellido") · Cita #@t.I("id_cita")</p></div>
+  <span class="ag-status ag-pending">@t.S("estado")</span></div>
+  <div class="spei-review-details">
+   <div><small>Importe declarado</small><strong>@t.M("monto").ToString("C",money)</strong></div>
+   <div><small>Fecha de operación</small><strong>@t.D("fecha_operacion").ToString("dd/MM/yyyy")</strong></div>
+   <div><small>Banco emisor</small><strong>@t.S("codigo_banco_emisor")</strong></div>
+   <div><small>Banco receptor</small><strong>@t.S("nombre_banco")</strong></div>
+   <div><small>CLABE de destino</small><strong>@t.S("clabe")</strong></div>
+   <div><small>Clave de rastreo</small><strong>@t.S("clave_rastreo")</strong></div>
+  </div>
+  <form asp-controller="Spei" asp-action="Resolver" method="post" class="spei-review-form">
+    <input type="hidden" name="TransferenciaId" value="@t.S("id_transferencia")" />
+   <div class="form-grid"><div><label for="decision_@t.S("id_transferencia")">Decisión</label>
+   <select id="decision_@t.S("id_transferencia")" name="Decision" required><option value="">Elige una decisión</option><option value="confirmar">Confirmar pago</option><option value="rechazar">Rechazar transferencia</option></select></div>
+   <div><label for="observaciones_@t.S("id_transferencia")">Observaciones / motivo de rechazo</label><textarea id="observaciones_@t.S("id_transferencia")" name="Observaciones" maxlength="500" placeholder="Rechazo: motivo obligatorio"></textarea></div></div>
+   <label class="checkbox-label"><input type="checkbox" name="CepConsultado" value="true" /> Consulté el CEP de Banxico (si está disponible)</label>
+   <label class="checkbox-label"><input type="checkbox" name="AbonoConfirmado" value="true" /> <strong>He comprobado en el banco receptor que el dinero fue abonado.</strong> (Obligatorio para confirmar)</label>
+   <button type="submit" class="btn btn-primary" data-confirm="Confirma que verificaste el movimiento en la cuenta bancaria antes de continuar.">Guardar decisión</button>
+  </form>
+ </article>
+}

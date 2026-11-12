@@ -1,0 +1,11 @@
+@model Citicio.Models.RegistroEmpleadoSucursalForm
+@{ViewData["Title"]="Registrar empleado";var servicios=ViewBag.Servicios as List<DbRow>??new();}
+<section class="form-page"><div class="content-head"><span class="eyebrow">MI SUCURSAL</span><h1>Registrar empleado</h1><p>Los empleados nuevos se asignarán automáticamente a la sucursal donde eres encargado. No puedes asignarlos a otra.</p></div>
+<div class="form-card wide-card"><form method="post" asp-action="Nuevo"><div asp-validation-summary="All" class="validation"></div><div class="form-grid">
+<div><label asp-for="Nombre">Nombre</label><input asp-for="Nombre"/></div><div><label asp-for="Paterno">Apellido paterno</label><input asp-for="Paterno"/></div>
+<div><label asp-for="Materno">Apellido materno</label><input asp-for="Materno"/></div><div><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono"/></div>
+<div><label asp-for="Correo">Correo de acceso</label><input asp-for="Correo" type="email"/></div>
+<div><label asp-for="Contrasena">Contraseña inicial (8+ caracteres; mayúscula, minúscula, número y símbolo)</label><input asp-for="Contrasena" type="password"/></div>
+</div><h3>Servicios que realizará</h3>
+@foreach(var s in servicios){<label class="checkbox-label" style="display:block;padding:9px"><input type="checkbox" name="Servicios" value="@s.I("id_servicio")" checked="@(Model.Servicios.Contains(s.I("id_servicio")))"/> @s.S("nombre")</label>}
+<button type="submit" class="btn btn-primary">Registrar empleado</button></form></div></section>

@@ -1,0 +1,28 @@
+@{ Layout = "_LayoutEmpresaPublico"; }
+@model EmpresaPanelViewModel
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+<section class="welcome">
+  <span class="eyebrow">SESIÓN EMPRESARIAL VERIFICADA</span>
+  <h1>@Model.Titulo<span class="accent">.</span></h1>
+  <p>Cuenta: <strong>@Model.Nombre</strong> · Empresa: <strong>@Model.Empresa</strong></p>
+  @if (Model.Rol == "encargado_sucursal")
+  {
+    <p>Alcance autorizado: <strong>@Model.Sucursal</strong>.</p>
+  }
+  else if (Model.Rol == "empleado")
+  {
+    <p>Solo se mostrarán tus propias citas, servicios asignados y horarios.</p>
+  }
+  else
+  {
+    <p>Consulta la información y configuración de las sucursales de tu empresa.</p>
+  }
+  <a class="primary" href="/empresa/index.html">Abrir panel interactivo</a>
+  <div class="roles">
+    <article><strong>Mis citas</strong><p>Agenda filtrada por tu rol.</p><a href="/empresa/index.html?seccion=citas">Abrir citas</a></article>
+    <article><strong>Servicios</strong><p>Precios y servicios autorizados.</p><a href="/empresa/index.html?seccion=servicios">Abrir servicios</a></article>
+    <article><strong>Horarios</strong><p>Consulta la organización del trabajo.</p><a href="/empresa/index.html?seccion=horarios">Abrir horarios</a></article>
+  </div>
+</section>

@@ -1,0 +1,12 @@
+@model LoginForm
+@{ViewData["Title"]="Iniciar sesión";}
+<div class="auth-layout"><div class="auth-intro"><span class="eyebrow">BIENVENIDO DE NUEVO</span><h1>Un acceso.<br /><em>Cinco experiencias.</em></h1><p>Clientes, empleados, encargados y administradores entran con su cuenta. CITICIO reconoce el rol y abre el panel adecuado.</p><div class="auth-orb">✳</div></div>
+<div class="form-card auth-card"><span class="form-icon">↗</span><h2>Inicia sesión</h2><p>Ingresa el correo y contraseña de tu cuenta.</p>
+<form method="post" asp-action="Ingresar" asp-route-returnUrl="@ViewBag.ReturnUrl">
+ <div asp-validation-summary="ModelOnly" class="validation"></div>
+ <label asp-for="Correo">Correo electrónico</label><input asp-for="Correo" type="email" autocomplete="username" placeholder="nombre@correo.com" /><span asp-validation-for="Correo" class="validation"></span>
+ <label asp-for="Contrasena">Contraseña</label><input asp-for="Contrasena" type="password" autocomplete="current-password" placeholder="••••••••" /><span asp-validation-for="Contrasena" class="validation"></span>
+ <button class="btn btn-primary btn-block" type="submit">Entrar a CITICIO →</button>
+ <p class="muted"><a asp-controller="Seguridad" asp-action="Recuperar">¿Olvidaste tu contraseña?</a></p>
+ <div class="under-form">¿Aún no tienes cuenta? <a asp-action="TipoCuenta">Elige tu tipo de cuenta</a><div class="under-form-business">¿Tienes un negocio? <a asp-action="RegistrarEmpresa">Registrar mi empresa</a></div></div>
+</form></div></div>

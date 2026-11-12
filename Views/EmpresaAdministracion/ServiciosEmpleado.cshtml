@@ -1,0 +1,14 @@
+@model EmpresaServiciosEmpleadoForm
+@{ViewData["Title"]="Servicios del empleado";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">SERVICIOS ASIGNADOS</span><h1>Servicios que realiza @ViewBag.Empleado</h1><p>Marca los servicios que realiza el empleado. CITICIO los habilitará automáticamente en la sucursal donde trabaja.</p></div>
+<div class="form-card wide-card"><form asp-action="ServiciosEmpleado" method="post"><input type="hidden" asp-for="EmpleadoId" />
+@foreach(DbRow s in ViewBag.Servicios){
+ <label class="empresa-check">
+ @if(Model.Servicios.Contains(s.I("id_servicio"))){
+   <input type="checkbox" name="Servicios" value="@s.I("id_servicio")" checked />
+ }else{
+   <input type="checkbox" name="Servicios" value="@s.I("id_servicio")" />
+ }
+ @s.S("nombre")</label>
+}
+<button type="submit" class="btn btn-primary">Guardar asignaciones</button> <a asp-action="Empleados" class="btn btn-outline">Cancelar</a></form></div></section>

@@ -1,0 +1,12 @@
+@model Citicio.Models.MiSucursalForm
+@{ViewData["Title"]="Mi sucursal";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">MI SUCURSAL</span><h1>Datos de mi sucursal</h1><p>Solo puedes modificar la sucursal donde estás registrado como encargado.</p></div>
+<div class="form-card wide-card"><form method="post" asp-action="Index"><div asp-validation-summary="All" class="validation"></div><div class="form-grid">
+<div><label asp-for="Nombre">Nombre</label><input asp-for="Nombre"/></div>
+<div><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono" type="tel"/></div>
+<div><label asp-for="Calle">Calle</label><input asp-for="Calle"/></div>
+<div><label asp-for="NumeroExterior">Número exterior</label><input asp-for="NumeroExterior"/></div>
+<div><label asp-for="EntreCalle1">Entre calle</label><input asp-for="EntreCalle1"/></div>
+<div><label asp-for="EntreCalle2">Y calle</label><input asp-for="EntreCalle2"/></div>
+</div><button class="btn btn-primary" type="submit">Guardar sucursal</button>
+<a class="btn btn-outline" asp-controller="HorariosPanel" asp-action="Index">Configurar horario de atención</a></form></div></section>

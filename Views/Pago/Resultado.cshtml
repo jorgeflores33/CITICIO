@@ -1,0 +1,29 @@
+@model string
+@{ViewData["Title"]="Estado del pago de cita";var citaId=ViewBag.CitaId is int id?id:0;}
+<div class="empty-state">
+    <div class="empty-icon">◇</div>
+    <h1 id="estado-pago-titulo">@(Model=="pagado" ? "Pago confirmado" : Model=="cancelado" ? "Pago no completado" : "Verificando pago con Stripe...")</h1>
+    <p id="estado-pago-detalle">@(Model=="pagado" ? "CITICIO confirmó el pago de tu cita. Tu correo y ticket se enviarán automáticamente mediante SendGrid." : Model=="cancelado" ? "No se completó el pago." : "Stripe está confirmando el pago de forma segura. No necesitas reportarlo manualmente ni pagar de nuevo.")</p>
+    <a asp-controller="Citas" asp-action="MisCitas" class="btn btn-primary">Volver a Mis citas</a>
+</div>
+@if(citaId>0 && Model!="pagado" && Model!="cancelado") {
+<script>
+(() => {
+    const citaId = @citaId;
+    let intentos = 0;
+    const temporizador=setInterval(async () => {
+        if (++intentos>20) {clearInterval(temporizador);return;}
+        try {
+            const r=await fetch('/Pago/EstadoCita?citaId='+encodeURIComponent(citaId),{credentials:'same-origin',cache:'no-store'});
+            if(!r.ok)return;
+            const estado=await r.json();
+            if(estado.pagada) {
+                clearInterval(temporizador);
+                document.getElementById('estado-pago-titulo').textContent='Pago confirmado';
+                document.getElementById('estado-pago-detalle').textContent='CITICIO registró tu pago. Enviaremos el comprobante a tu correo registrado.';
+            }
+        } catch { /* La revisión puede volver a intentarse sin realizar un nuevo cobro. */ }
+    },1200);
+})();
+</script>
+}

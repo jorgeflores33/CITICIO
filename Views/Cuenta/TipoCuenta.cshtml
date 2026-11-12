@@ -1,0 +1,8 @@
+@{ ViewData["Title"]="Crear cuenta"; }
+<section class="account-kind-shell">
+ <div class="content-head align-center"><span class="eyebrow">FORMA PARTE DE CITICIO</span><h1>¿Cómo quieres utilizar CITICIO?</h1><p>Elige el tipo de cuenta. Clientes y empresas tienen un registro diferente, pero ambos usan el mismo inicio de sesión.</p></div>
+ <div class="account-kind-grid">
+  <article class="account-kind-card"><span class="kind-icon">✦</span><span class="eyebrow">SOY CLIENTE</span><h2>Quiero agendar servicios</h2><p>Explora negocios, encuentra profesionales, agenda citas, consulta pagos y recibe recordatorios.</p><a asp-controller="Cuenta" asp-action="Registrarse" class="btn btn-primary">Crear cuenta de cliente →</a></article>
+  <article class="account-kind-card kind-business"><span class="kind-icon">▦</span><span class="eyebrow">TENGO UN NEGOCIO</span><h2>Quiero registrar mi empresa</h2><p>Registra tu empresa y administra sucursales, personal, servicios y citas desde el primer día. Para utilizar CITICIO, paga una mensualidad fija.</p><a asp-controller="Cuenta" asp-action="RegistrarEmpresa" class="btn btn-primary">Registrar mi empresa →</a></article>
+ </div><p class="muted account-kind-note">¿Ya tienes cuenta? <a asp-controller="Cuenta" asp-action="Ingresar">Inicia sesión aquí.</a> Empleados y encargados son registrados por su administrador, no desde este formulario.</p>
+</section>

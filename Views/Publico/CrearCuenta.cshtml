@@ -1,0 +1,29 @@
+@{ Layout = "_LayoutEmpresaPublico"; }
+@{
+    ViewData["Title"] = "Crear cuenta";
+}
+<section class="public-container">
+  <span class="page-kicker">ÚNETE A CITICIO</span>
+  <h1>Crea tu cuenta</h1>
+  <p class="public-lede">Regístrate como cliente para guardar tu información de citas.</p>
+  <div class="form-card">
+    <form id="registroClienteForm" data-form="cliente">
+      <div class="form-grid">
+        <div class="form-field"><label for="nombre">Nombre *</label><input name="nombre" id="nombre" required maxlength="100" autocomplete="given-name"></div>
+        <div class="form-field"><label for="apellidoPaterno">Apellido paterno *</label><input name="apellidoPaterno" id="apellidoPaterno" required maxlength="100" autocomplete="family-name"></div>
+        <div class="form-field"><label for="apellidoMaterno">Apellido materno *</label><input name="apellidoMaterno" id="apellidoMaterno" required maxlength="100"></div>
+        <div class="form-field"><label for="ladaPais">País / lada telefónica *</label><select name="ladaPais" id="ladaPais"><option value="+52">México (+52)</option><option value="+1">EE. UU. / Canadá (+1)</option><option value="+57">Colombia (+57)</option><option value="+34">España (+34)</option><option value="+51">Perú (+51)</option><option value="+54">Argentina (+54)</option><option value="+502">Guatemala (+502)</option></select></div>
+        <div class="form-field"><label for="telefono">Teléfono *</label><input name="telefono" id="telefono" required inputmode="numeric" pattern="[0-9]{10,15}" maxlength="15"></div>
+        <div class="form-field full"><label for="correo">Correo electrónico *</label><input type="email" name="correo" id="correo" required maxlength="254" autocomplete="email"></div>
+        <div class="form-field"><label for="fechaNacimiento">Fecha de nacimiento *</label><input type="date" name="fechaNacimiento" id="fechaNacimiento" required></div>
+        <div class="form-field full"><label for="contrasena">Contraseña (8+ caracteres, mayúscula, minúscula, número y símbolo) *</label><input type="password" name="contrasena" id="contrasena" required minlength="8" maxlength="128" autocomplete="new-password"></div>
+        <div class="form-field full"><label><input type="checkbox" id="aceptaWhatsapp" name="aceptaWhatsapp" value="true"/> Acepto recibir confirmaciones y recordatorios por WhatsApp.</label></div>
+        <div class="form-field full"><label for="telefonoWhatsapp">WhatsApp internacional (se completa con la lada)</label><input type="tel" id="telefonoWhatsapp" name="telefonoWhatsapp" maxlength="16" placeholder="+529611234567"/></div>
+      </div>
+      <div class="notice">Tu cuenta se registrará en SQL Server. Para explorar servicios, administrar citas y pagar, accede al portal de clientes de CITICIO desde /clientes.</div>
+      <p id="formStatus" class="form-note" role="status"></p>
+      <button class="form-submit" type="submit">Crear cuenta</button>
+    </form>
+  </div>
+</section>
+@section Scripts {<script src="~/js/registros.js" defer asp-append-version="true"></script>}

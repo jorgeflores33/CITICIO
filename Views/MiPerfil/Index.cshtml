@@ -1,0 +1,13 @@
+@model Citicio.Models.MiPerfilForm
+@{ViewData["Title"]="Mi perfil";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">MI CUENTA</span><h1>Editar mi perfil</h1><p>Actualiza tus datos personales. Tu rol y sucursal se gestionan por la empresa y no pueden cambiarse desde aquí.</p></div>
+<div class="form-card wide-card"><form method="post" asp-controller="MiPerfil" asp-action="Index">
+<div asp-validation-summary="All" class="validation"></div><div class="form-grid">
+<div><label asp-for="Nombre">Nombre</label><input asp-for="Nombre" /></div>
+<div><label asp-for="Paterno">Apellido paterno</label><input asp-for="Paterno" /></div>
+<div><label asp-for="Materno">Apellido materno</label><input asp-for="Materno" /></div>
+<div><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono" inputmode="numeric" /></div>
+<div><label asp-for="Correo">Correo de acceso</label><input asp-for="Correo" type="email" /></div>
+<div><label asp-for="ContrasenaActual">Contraseña actual para confirmar</label><input asp-for="ContrasenaActual" type="password" autocomplete="current-password" /></div>
+</div><button type="submit" class="btn btn-primary">Guardar mi perfil</button>
+<a class="btn btn-outline" asp-controller="Seguridad" asp-action="Recuperar">Cambiar contraseña por correo</a></form></div></section>

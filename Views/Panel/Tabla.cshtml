@@ -1,0 +1,14 @@
+@model PanelVM
+@{ViewData["Title"]=Model.Titulo;}
+<section class="content-head"><span class="eyebrow">PANEL CITICIO</span><h1>@Model.Titulo</h1><p>@Model.Subtitulo</p></section>
+<div class="table-panel"><div class="table-panel-top"><strong>@Model.Rows.Count registros</strong><span>Datos obtenidos desde SQL Server</span></div>
+<div class="table-overflow"><table class="data-table"><thead><tr>@foreach(var col in Model.Columns.Where(x=>!x.StartsWith("id_",StringComparison.OrdinalIgnoreCase))){<th>@(Model.Captions.TryGetValue(col,out var name)?name:col.Replace('_',' '))</th>}@if(Model.Titulo=="Servicios" && User.Es("admin_citicio","admin_empresa")){<th>Acciones</th>}</tr></thead><tbody>
+@foreach(var r in Model.Rows){<tr>@foreach(var col in Model.Columns.Where(x=>!x.StartsWith("id_",StringComparison.OrdinalIgnoreCase))){<td>
+@if(col=="nombre_estado"){<span class="state-pill">@r.S(col).Replace('_',' ')</span>}
+else if(col=="precio"||col=="monto"||col=="total_cita"){<strong>@r.M(col).ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</strong>}
+else if(col.StartsWith("fecha")||col.StartsWith("hora")){<span>@(r.D(col)==DateTime.MinValue?"—":r.D(col).ToString("dd/MM/yyyy HH:mm"))</span>}
+else{<span>@r.S(col)</span>}
+</td>}@if(Model.Titulo=="Servicios" && User.Es("admin_citicio","admin_empresa")){<td><a class="btn btn-outline btn-sm" asp-controller="Gestion" asp-action="ServicioEditar" asp-route-id="@r.I("id_servicio")">Editar precio</a></td>}</tr>}
+</tbody></table></div>
+@if(Model.Rows.Count==0){<div class="empty-mini">Todavía no hay registros disponibles para tu perfil.</div>}
+</div>

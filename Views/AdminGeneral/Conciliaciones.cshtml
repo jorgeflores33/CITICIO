@@ -1,0 +1,14 @@
+@model List<Citicio.Data.DbRow>
+@{ ViewData["Title"]="Conciliación de cobros"; }
+<h1>Conciliación de pagos de sucursales</h1>
+<p>Estos pagos fueron notificados por Stripe, pero no se acreditaron a la cita por cancelación o saldo cubierto. Revisa en Stripe el cobro y su posible reembolso antes de modificar registros.</p>
+@if(Model.Count==0) { <p>No hay cobros pendientes de revisión.</p> }
+else {
+<table class="table">
+ <thead><tr><th>Cita</th><th>Sucursal</th><th>Monto</th><th>Motivo</th><th>Referencia Stripe</th><th>Fecha UTC</th></tr></thead>
+ <tbody>@foreach(var r in Model) {
+  <tr><td>@r.I("id_cita")</td><td>@r.S("sucursal")</td><td>@r.M("monto").ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</td><td>@r.S("motivo")</td><td>@r.S("referencia")</td><td>@r.D("fecha_recepcion_utc")</td></tr>
+ }</tbody>
+</table>
+}
+<p>No se realizan reembolsos automáticamente desde esta pantalla.</p>

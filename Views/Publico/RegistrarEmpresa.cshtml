@@ -1,0 +1,63 @@
+@{ Layout = "_LayoutEmpresaPublico"; }
+@{
+    ViewData["Title"] = "Registrar empresa";
+}
+<section class="public-container business-registration">
+  <span class="page-kicker">CRECE CON CITICIO</span>
+  <h1>Registrar empresa</h1>
+  <p class="public-lede">Crea tu cuenta de administrador y comienza a gestionar tu negocio con CITICIO.</p>
+  <div class="form-card">
+    <form id="registroEmpresaForm" data-form="empresa" enctype="multipart/form-data" novalidate>
+      <section class="registration-section" aria-labelledby="tituloEmpresa">
+        <h2 id="tituloEmpresa"><span class="section-symbol">▦</span> Información de la empresa</h2>
+        <p class="section-help">Esta información se publicará cuando tengas una mensualidad pagada y vigente.</p>
+        <div class="form-grid">
+          <div class="form-field full"><label for="nombreEmpresa">Nombre comercial *</label><input id="nombreEmpresa" name="nombreEmpresa" required minlength="3" maxlength="150" autocomplete="organization" placeholder="Nombre de tu negocio" /></div>
+          <div class="form-field full"><label for="idGiro">Giro o categoría</label><select id="idGiro" name="idGiro"><option value="">Seleccionar más adelante</option></select></div>
+          <div class="form-field full"><label for="descripcion">Descripción de la empresa</label><textarea id="descripcion" name="descripcion" rows="4" maxlength="1000" placeholder="Describe los servicios y especialidades de tu empresa"></textarea></div>
+          <div class="form-field full">
+            <label for="logo">Logotipo de la empresa (opcional)</label>
+            <div class="upload-line"><input type="file" accept="image/png,image/jpeg,image/webp" id="logo" name="logo" aria-describedby="logoHelp" /><span id="logoPreview" class="logo-preview" hidden></span></div>
+            <small id="logoHelp">Sube un archivo JPG, PNG o WebP de menos de 2 MB. La imagen se almacena directamente en SQL Server, no como una URL.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="registration-section" aria-labelledby="tituloDireccion">
+        <h2 id="tituloDireccion"><span class="section-symbol">⌖</span> Domicilio de tu empresa</h2>
+        <p class="section-help">Selecciona estado, municipio y colonia desde el catálogo nacional de México.</p>
+        <div class="form-grid">
+          <div class="form-field"><label for="idEstado">Estado o entidad federativa *</label><select id="idEstado" name="idEstado" required><option value="">Selecciona tu estado</option></select></div>
+          <div class="form-field"><label for="idMunicipio">Municipio o alcaldía *</label><select id="idMunicipio" name="idMunicipio" required disabled><option value="">Selecciona estado</option></select></div>
+          <div class="form-field"><label for="codigoPostal">Código postal (opcional para filtrar)</label><input id="codigoPostal" name="codigoPostal" maxlength="5" minlength="5" inputmode="numeric" pattern="[0-9]{5}" placeholder="Ej. 29000" /></div>
+          <div class="form-field"><label for="idColonia">Colonia / asentamiento *</label><select id="idColonia" name="idColonia" required disabled><option value="">Selecciona municipio</option></select></div>
+          <div class="form-field full"><label for="calle">Calle *</label><input id="calle" name="calle" required maxlength="200" placeholder="Nombre de la calle o avenida" /></div>
+          <div class="form-field"><label for="numeroExterior">Número exterior *</label><input id="numeroExterior" name="numeroExterior" required maxlength="20" placeholder="Ej. 120" /></div>
+          <div class="form-field"><label for="numeroInterior">Número interior</label><input id="numeroInterior" name="numeroInterior" maxlength="20" placeholder="Opcional" /></div>
+        </div>
+        <div class="notice" id="geoStatus" role="status">Selecciona un estado para continuar.</div>
+      </section>
+
+      <section class="registration-section" aria-labelledby="tituloPropietario">
+        <h2 id="tituloPropietario"><span class="section-symbol">♙</span> Datos del propietario</h2>
+        <p class="section-help">Estos datos se utilizarán para crear tu cuenta <strong>administrador de empresa</strong>.</p>
+        <div class="form-grid">
+          <div class="form-field"><label for="nombreDueno">Nombre(s) *</label><input id="nombreDueno" name="nombreDueno" autocomplete="given-name" required maxlength="100" /></div>
+          <div class="form-field"><label for="apellidoPaterno">Apellido paterno *</label><input id="apellidoPaterno" name="apellidoPaterno" autocomplete="family-name" required maxlength="100" /></div>
+          <div class="form-field"><label for="apellidoMaterno">Apellido materno</label><input id="apellidoMaterno" name="apellidoMaterno" maxlength="100" /></div>
+          <div class="form-field"><label for="telefono">Teléfono (10 a 15 números) *</label><input id="telefono" name="telefono" type="tel" pattern="[0-9]{10,15}" minlength="10" maxlength="15" inputmode="numeric" autocomplete="tel" required /></div>
+          <div class="form-field full"><label for="correo">Correo electrónico de acceso *</label><input type="email" id="correo" name="correo" autocomplete="email" required maxlength="254" /></div>
+          <div class="form-field"><label for="contrasena">Contraseña (mínimo 10 caracteres) *</label><input id="contrasena" name="contrasena" type="password" minlength="10" maxlength="128" autocomplete="new-password" required /></div>
+          <div class="form-field"><label for="confirmarContrasena">Confirmar contraseña *</label><input id="confirmarContrasena" name="confirmarContrasena" type="password" minlength="10" maxlength="128" autocomplete="new-password" required /></div>
+        </div>
+      </section>
+
+      <div class="terms-line"><label for="aceptaTerminos"><input type="checkbox" name="aceptaTerminos" id="aceptaTerminos" value="true" required /> Confirmo que los datos son correctos y acepto los términos para registrar mi empresa y entiendo que su acceso a CITICIO requiere un pago vigente.</label></div>
+      <p id="formStatus" role="status" aria-live="polite" class="form-note"></p>
+      <button type="submit" class="form-submit" id="registrarEmpresaBtn">Registrar empresa ahora →</button>
+      <p class="activation-info">La cuenta se activa inmediatamente. El acceso a CITICIO requiere la primera mensualidad.</p>
+      <p class="switch-register">¿Querías reservar una cita? <a href="/Cuenta/Registrarse"><strong>Regístrate como cliente</strong></a>.</p>
+    </form>
+  </div>
+</section>
+@section Scripts {<script src="~/js/registros.js" defer asp-append-version="true"></script>}

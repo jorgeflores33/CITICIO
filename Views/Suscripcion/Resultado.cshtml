@@ -1,0 +1,5 @@
+@model string
+@{ViewData["Title"]="Resultado del pago";Layout="_LayoutEmpresaPublico";}
+<section class="content-head"><h1>Pago de mensualidad</h1></section>
+<div class="form-card wide-card"><p>@(Model=="exito" ? "El pago está en proceso de verificación con Stripe. CITICIO habilitará el panel solo después de comprobarlo en SQL Server. No vuelvas a pagar." : "No se confirmó un pago. Consulta el estado de tu mensualidad sin generar otro cobro.")</p>
+<a class="btn btn-primary" href="/Suscripcion">Consultar mi suscripción</a></div>

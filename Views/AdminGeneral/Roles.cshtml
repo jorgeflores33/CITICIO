@@ -1,0 +1,7 @@
+@model List<DbRow>
+@{ViewData["Title"]="Roles y permisos · CITICIO";}
+<section class="content-head"><span class="eyebrow">SEGURIDAD · ADMINISTRADOR GENERAL</span><h1>Roles y permisos</h1><p>Revisa los cinco roles configurados en SQL Server y la cantidad de funcionalidades asignadas a cada uno.</p></section>
+<div class="table-panel"><div class="table-panel-top"><strong>@Model.Count roles</strong><span>Configuración de acceso global</span></div><div class="table-overflow"><table class="data-table"><thead><tr><th>Rol</th><th>Descripción</th><th>Funcionalidades asignadas</th><th>Usuarios</th></tr></thead><tbody>
+@foreach (var r in Model){<tr><td><strong>@r.S("nombre_rol")</strong></td><td>@r.S("descripcion")</td><td>@r.I("funcionalidades")</td><td>@r.I("usuarios")</td></tr>}
+</tbody></table></div></div>
+<div class="ag-notice">Las restricciones se comprueban en el backend y en los procedimientos nuevos. Cambiar roles o asignar permisos desde el navegador no está habilitado en esta entrega de revisión.</div>

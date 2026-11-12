@@ -1,0 +1,52 @@
+@model Citicio.Models.PagoSpeiVM
+@{ViewData["Title"]="Transferencia bancaria SPEI";var money=System.Globalization.CultureInfo.GetCultureInfo("es-MX");}
+<section class="content-head"><span class="eyebrow">PAGO DIRECTO A LA EMPRESA</span><h1>Pagar cita #@Model.Cita.I("id_cita") por SPEI</h1>
+<p>Transferencia bancaria directa. CITICIO únicamente registra el reporte y la empresa confirma si recibió el dinero.</p></section>
+<div class="ag-notice"><strong>@Model.Cita.S("empresa")</strong> · @Model.Cita.S("sucursal") · @Model.Cita.D("hora_inicio").ToString("dd/MM/yyyy HH:mm")<br />Saldo por cubrir: <strong>@Model.Saldo.ToString("C",money)</strong></div>
+@if(Model.Cuentas.Count==0){
+ <div class="empty-state"><h2>Esta empresa aún no ha registrado una cuenta bancaria</h2><p>Solicita al administrador que registre una CLABE activa.</p><a asp-controller="Citas" asp-action="MisCitas" class="btn btn-outline">Volver a mis citas</a></div>
+}else{
+ <div class="spei-cols">
+  <section class="form-card"><h2>1. Cuenta bancaria de destino</h2>
+  <p class="muted">Transfiere desde tu banco a UNA de estas cuentas de la empresa.</p>
+  @foreach(var cuenta in Model.Cuentas){
+   <article class="spei-account">
+    <h3>@cuenta.S("nombre_banco") @if(cuenta.B("es_principal")){<span class="ag-status ag-on">Principal</span>}</h3>
+    <p><strong>Titular:</strong> @cuenta.S("titular")</p>
+    <div class="spei-clabe">@cuenta.S("clabe")</div>
+    <p class="muted">Código de banco: @cuenta.S("codigo_banco")</p>
+   </article>
+  }
+  </section>
+  <section class="form-card"><h2>2. Reporta tu transferencia</h2>
+   <p class="muted">Completa estos datos DESPUÉS de enviar el dinero desde tu banca. No se autoriza el pago solamente con la clave de rastreo.</p>
+   <form asp-controller="Spei" asp-action="Reportar" method="post">
+      <div asp-validation-summary="All" class="validation"></div>
+    <input type="hidden" name="CitaId" value="@Model.Form.CitaId" />
+    <div class="form-grid">
+     <div class="field-span"><label for="cuentaId">Cuenta destino</label><select id="cuentaId" name="CuentaId" required>
+      <option value="">Selecciona banco y CLABE</option>
+      @foreach(var b in Model.Cuentas){<option value="@b.I("id_cuenta_bancaria")" selected="@(b.I("id_cuenta_bancaria")==Model.Form.CuentaId)">@b.S("nombre_banco") — @b.S("clabe")</option>}
+     </select></div>
+     <div><label for="fechaOperacion">Fecha de transferencia</label><input id="fechaOperacion" name="FechaOperacion" type="date" value="@Model.Form.FechaOperacion.ToString("yyyy-MM-dd")" required /></div>
+     <div><label for="bancoEmisor">Código banco emisor (3 números)</label><input id="bancoEmisor" name="BancoEmisor" value="@Model.Form.BancoEmisor" placeholder="014 para Santander" maxlength="3" required inputmode="numeric" /></div>
+     <div class="field-span"><label for="claveRastreo">Clave de rastreo SPEI</label><input id="claveRastreo" name="ClaveRastreo" value="@Model.Form.ClaveRastreo" maxlength="100" required autocomplete="off" /></div>
+     <div><label for="monto">Monto transferido (MXN)</label><input id="monto" name="Monto" type="number" step="0.01" min="0.01" max="@Model.Saldo.ToString(System.Globalization.CultureInfo.InvariantCulture)" value="@Model.Form.Monto.ToString(System.Globalization.CultureInfo.InvariantCulture)" required /></div>
+     <div class="field-span"><label for="nota">Observaciones (opcional)</label><textarea id="nota" name="Nota" maxlength="500">@Model.Form.Nota</textarea></div>
+    </div>
+    <button type="submit" class="btn btn-primary">Reportar transferencia →</button>
+   </form>
+  </section>
+ </div>
+}
+<section class="form-card spei-history"><h2>Transferencias reportadas para esta cita</h2>
+@if(Model.Transferencias.Count==0){<p class="muted">Todavía no has reportado transferencias.</p>}
+@foreach(var t in Model.Transferencias){
+ <article class="spei-account"><div class="appointment-top"><strong>@t.M("monto").ToString("C",money) — @t.S("banco_destino")</strong>
+ <span class="ag-status @(t.S("estado")=="confirmada"?"ag-on":t.S("estado")=="rechazada"?"ag-off":"ag-pending")">@t.S("estado")</span></div>
+ <p>Fecha: @t.D("fecha_operacion").ToString("dd/MM/yyyy") · Rastreo: @t.S("clave_rastreo")</p>
+ @if(t.S("estado")=="rechazada"){<p class="alert alert-error">Motivo: @t.S("motivo_rechazo")</p>}
+ </article>
+}
+</section>
+<div class="ag-notice">Consulta el comprobante oficial en <a href="https://www.banxico.org.mx/cep/" target="_blank" rel="noopener noreferrer">Banxico CEP</a>. Un CEP es evidencia bancaria; el pago de CITICIO quedará pendiente hasta que la empresa confirme el abono. Los tickets generados por CITICIO no son facturas fiscales CFDI.</div>

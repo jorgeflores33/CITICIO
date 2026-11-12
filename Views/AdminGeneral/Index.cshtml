@@ -1,0 +1,57 @@
+@model DbRow
+@{
+    ViewData["Title"] = "Administrador general";
+    var money = System.Globalization.CultureInfo.GetCultureInfo("es-MX");
+    var links = new (string Title, string Text, string Ctrl, string Action, string Icon)[] {
+        ("Empresas", "Listado, estados y acciones administrativas.", "AdminGeneral", "Empresas", "▦"),
+        ("Cobros a empresas", "Cobros de la plataforma y sus periodos.", "Panel", "Cobros", "◇"),
+        ("Pagos de servicios", "Pagos de citas recibidos por las empresas.", "Panel", "Pagos", "▱"),
+        ("Reportes", "Actividad de las citas en todo CITICIO.", "Panel", "Reportes", "▥"),
+        ("Reseñas", "Opiniones publicadas por los clientes.", "Panel", "Resenas", "☆"),
+        ("Empleados", "Colaboradores de todas las empresas.", "Panel", "Empleados", "♙"),
+        ("Servicios", "Catálogo de servicios y precios por empresa.", "Panel", "Servicios", "✦"),
+        ("Sucursales", "Ubicaciones registradas en la plataforma.", "Panel", "Sucursales", "⌖"),
+        ("Citas", "Agenda completa y estados de reservación.", "Panel", "Citas", "▤"),
+        ("Giros y categorías", "Registra y edita los giros de las empresas.", "AdminGeneral", "Giros", "▤"),
+        ("Usuarios", "Cuentas y acceso por rol.", "AdminGeneral", "Usuarios", "♧"),
+        ("Roles y permisos", "Revisa la distribución de funciones.", "AdminGeneral", "Roles", "⚑"),
+        ("Tarifa de suscripción", "Mensualidad fija de uso de CITICIO.", "Suscripcion", "Configuracion", "⚙"),
+        ("Conciliación de tarjetas", "Pagos recibidos tras cancelaciones o saldo cubierto.", "AdminGeneral", "Conciliaciones", "▤"),
+        ("Transferencias SPEI", "Revisar depósitos de mensualidades empresariales.", "AdminGeneral", "TransferenciasPendientes", "▱"),
+    };
+}
+<section class="ag-hero">
+ <div>
+  <span class="ag-eyebrow">CITICIO · CENTRO DE CONTROL</span>
+  <h1>Administrador general</h1>
+  <p>Supervisa la operación completa de la plataforma. Cada empresa gestiona sus propias citas y confirma los pagos que recibe directamente.</p>
+  <div class="ag-hero-actions"><a class="btn btn-white" asp-controller="AdminGeneral" asp-action="Empresas">Administrar empresas</a><a class="btn btn-outline" asp-controller="Suscripcion" asp-action="Configuracion">Configurar tarifa</a></div>
+ </div>
+ <div class="ag-hero-aside"><span class="ag-hero-asterisk">✳</span><strong>1 plataforma</strong><span>5 roles independientes</span></div>
+</section>
+<section aria-label="Indicadores de CITICIO">
+ <div class="ag-section-heading"><div><span class="eyebrow">INDICADORES GLOBALES</span><h2>Estado de la plataforma</h2></div><span class="ag-update-note">Datos de SQL Server</span></div>
+ <div class="ag-stats">
+  <div class="ag-stat"><span>Empresas</span><strong>@Model.I("empresas")</strong><small>Registradas</small></div>
+  <div class="ag-stat"><span>Sucursales</span><strong>@Model.I("sucursales")</strong><small>En la plataforma</small></div>
+  <div class="ag-stat"><span>Empleados</span><strong>@Model.I("empleados")</strong><small>Personal registrado</small></div>
+  <div class="ag-stat"><span>Clientes</span><strong>@Model.I("clientes")</strong><small>Usuarios clientes</small></div>
+  <div class="ag-stat"><span>Citas</span><strong>@Model.I("citas")</strong><small>Reservas acumuladas</small></div>
+  <div class="ag-stat"><span>Reseñas</span><strong>@Model.I("resenas")</strong><small>Opiniones registradas</small></div>
+ </div>
+ <div class="ag-financial">
+  <div><span>Ingresos confirmados de CITICIO por mensualidades</span><strong>@Model.M("cobros_empresas_confirmados").ToString("C",money)</strong><small>Cobros de plataforma confirmados, no incluyen pagos de citas.</small></div>
+  <div><span>Pagos confirmados por servicios de empresas</span><strong>@Model.M("ingresos_servicios_confirmados").ToString("C",money)</strong><small>Dinero de las empresas; no representa ingreso de CITICIO.</small></div>
+ </div>
+</section>
+<section aria-label="Módulos administrativos" class="ag-modules-section">
+ <div class="ag-section-heading"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Módulos disponibles</h2></div></div>
+ <div class="ag-module-grid">
+  @foreach (var item in links) {
+   <a class="ag-module" asp-controller="@item.Ctrl" asp-action="@item.Action">
+    <span class="ag-module-symbol">@item.Icon</span><span class="ag-module-main"><strong>@item.Title</strong><small>@item.Text</small></span><span class="ag-module-arrow">↗</span>
+   </a>
+  }
+ </div>
+</section>
+<div class="ag-notice"><strong>Seguridad:</strong> únicamente las cuentas con rol <code>admin_citicio</code> pueden entrar a este panel. Las empresas requieren una mensualidad confirmada para utilizar las herramientas.</div>

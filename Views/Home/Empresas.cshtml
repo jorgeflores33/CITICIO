@@ -1,0 +1,209 @@
+@model EmpresasServiciosVM
+@using System.Globalization
+@{
+    ViewData["Title"] = "Empresas y servicios";
+    var mx = CultureInfo.GetCultureInfo("es-MX");
+    var portada = Model.Empresas.FirstOrDefault();
+    var categorias = new (string Nombre, string Icono)[] {
+        ("Barbería", "✂"), ("Peluquería", "♧"), ("Spa", "✿"),
+        ("Clínica", "✚"), ("Uñas", "❀"), ("Masajes", "◉"),
+        ("Dentista", "◇"), ("Gimnasio", "✦")
+    };
+}
+@section Styles {
+    <link rel="stylesheet" asp-append-version="true" href="~/css/empresas-servicios.css" />
+}
+
+<div class="es-shell">
+    <header class="es-intro" aria-labelledby="es-title">
+        <div class="es-intro-copy">
+            <span class="es-eyebrow">DESCUBRE, COMPARA Y RESERVA</span>
+            <h1 id="es-title">Empresas y servicios</h1>
+            <p>Descubre empresas, compara sus servicios y reserva tu cita de forma rápida y segura.</p>
+        </div>
+        <div class="es-intro-visual" aria-hidden="true">
+            <div class="es-circle"></div>
+            @if (portada is not null) {
+                <img src="/Imagenes/Ver?uso=portada_empresa&amp;id=@portada.Id"
+                    alt="" onerror="this.style.display='none'" />
+            }
+            <span class="es-visual-icon">✳</span>
+        </div>
+    </header>
+
+    <form method="get" asp-controller="Home" asp-action="Empresas" class="es-filter-form" id="es-filtros">
+        <div class="es-search" role="search">
+            <span class="es-search-icon" aria-hidden="true">⌕</span>
+            <input type="search" name="buscar" value="@Model.Buscar" maxlength="150"
+                aria-label="Buscar empresas y servicios"
+                placeholder="Busca peluquería, barbería, spa, clínica, empresa o servicio" />
+            <input type="hidden" name="categoria" value="@Model.Categoria" />
+            <button class="btn btn-primary es-search-button" type="submit">Buscar</button>
+        </div>
+
+        <nav class="es-categories" aria-label="Categorías de servicios">
+            <a class="es-category @(string.IsNullOrWhiteSpace(Model.Categoria) ? "active" : "")"
+               asp-controller="Home" asp-action="Empresas" asp-route-buscar="@Model.Buscar">
+                <span aria-hidden="true">▦</span> Todas
+            </a>
+            @foreach (var categoria in categorias) {
+                <a class="es-category @(string.Equals(Model.Categoria,categoria.Nombre,StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                   asp-controller="Home" asp-action="Empresas" asp-route-categoria="@categoria.Nombre" asp-route-buscar="@Model.Buscar">
+                    <span aria-hidden="true">@categoria.Icono</span> @categoria.Nombre
+                </a>
+            }
+        </nav>
+
+        <div class="es-filter-controls">
+            <label class="es-select-wrap">
+                <span class="es-filter-symbol" aria-hidden="true">☆</span>
+                <span class="visually-hidden">Calificación mínima</span>
+                <select name="calificacionMin" aria-label="Calificación mínima">
+                    <option value="">Calificación: Todas</option>
+                    <option value="4" selected="@(Model.CalificacionMin == 4)">4 estrellas o más</option>
+                    <option value="5" selected="@(Model.CalificacionMin == 5)">5 estrellas</option>
+                </select>
+            </label>
+            <label class="es-select-wrap">
+                <span class="es-filter-symbol" aria-hidden="true">＄</span>
+                <span class="visually-hidden">Precio máximo</span>
+                <select name="precioMax" aria-label="Precio máximo">
+                    <option value="">Precio: Todos</option>
+                    <option value="200" selected="@(Model.PrecioMax == 200)">Hasta $200 MXN</option>
+                    <option value="500" selected="@(Model.PrecioMax == 500)">Hasta $500 MXN</option>
+                    <option value="1000" selected="@(Model.PrecioMax == 1000)">Hasta $1,000 MXN</option>
+                    <option value="2000" selected="@(Model.PrecioMax == 2000)">Hasta $2,000 MXN</option>
+                </select>
+            </label>
+            <label class="es-select-wrap">
+                <span class="es-filter-symbol" aria-hidden="true">⌖</span>
+                <span class="visually-hidden">Ciudad</span>
+                <select name="ciudad" aria-label="Ciudad">
+                    <option value="">Ciudad: Todas</option>
+                    @foreach(var ciudad in Model.Ciudades) {
+                        <option value="@ciudad" selected="@(string.Equals(Model.Ciudad,ciudad,StringComparison.OrdinalIgnoreCase))">@ciudad</option>
+                    }
+                </select>
+            </label>
+            <label class="es-select-wrap">
+                <span class="es-filter-symbol" aria-hidden="true">▣</span>
+                <span class="visually-hidden">Sucursal</span>
+                <select name="sucursal" aria-label="Sucursal">
+                    <option value="">Sucursal: Todas</option>
+                    @foreach(var s in Model.Sucursales) {
+                        <option value="@s.Id" selected="@(Model.Sucursal == s.Id)">@s.Empresa · @s.Nombre</option>
+                    }
+                </select>
+            </label>
+            <label class="es-select-wrap es-sort-wrap">
+                <span class="es-filter-symbol" aria-hidden="true">↕</span>
+                <span class="visually-hidden">Ordenar resultados</span>
+                <select name="orden" aria-label="Ordenar resultados">
+                    <option value="relevancia" selected="@(Model.Orden == "relevancia")">Ordenar: Relevancia</option>
+                    <option value="calificacion" selected="@(Model.Orden == "calificacion")">Mejor calificadas</option>
+                    <option value="precio" selected="@(Model.Orden == "precio")">Precio menor</option>
+                    <option value="nombre" selected="@(Model.Orden == "nombre")">Nombre de empresa</option>
+                </select>
+            </label>
+            <button type="submit" class="btn btn-outline es-apply">Aplicar filtros</button>
+        </div>
+    </form>
+
+    <div class="es-result-heading" aria-live="polite">
+        <div>
+            <span class="es-eyebrow">ENCUENTRA LO QUE BUSCAS</span>
+            <h2>Negocios que puedes reservar</h2>
+        </div>
+        <span class="count-pill">@Model.Empresas.Count empresas · @Model.TotalServicios servicios</span>
+    </div>
+
+    @if(Model.ErrorSql) {
+        <div class="alert alert-error" role="alert">No fue posible consultar el catálogo de CITICIO. Comprueba la conexión con SQL Server.</div>
+    }
+    else if(Model.Empresas.Count==0) {
+        <div class="es-empty">
+            <span aria-hidden="true">✳</span>
+            <h3>No encontramos empresas para esos filtros</h3>
+            <p>Prueba buscar con otro nombre o elimina alguno de los filtros. Solo aparecen servicios de empresas con mensualidad vigente.</p>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Empresas">Ver todas las empresas</a>
+        </div>
+    }
+    else {
+        <section class="es-grid" aria-label="Resultados de empresas y servicios">
+            @foreach(var empresa in Model.Empresas) {
+                <article class="es-business-card">
+                    <div class="es-business-cover">
+                        <img src="/Imagenes/Ver?uso=portada_empresa&amp;id=@empresa.Id"
+                            alt="Portada de @empresa.Nombre" loading="lazy" onerror="this.style.display='none'" />
+                        @if(empresa.Calificacion.HasValue && empresa.TotalResenas > 0) {
+                            <span class="es-rating">★ @empresa.Calificacion.Value.ToString("0.0",mx) <small>(@empresa.TotalResenas reseñas)</small></span>
+                        }
+                        else {<span class="es-rating es-new-business">☆ Sin reseñas</span>}
+                    </div>
+                    <div class="es-business-body">
+                        <div class="es-company-head">
+                            <div class="es-business-logo">
+                                <span aria-hidden="true">✳</span>
+                                <img src="/Imagenes/Ver?uso=logo_empresa&amp;id=@empresa.Id" alt="Logo de @empresa.Nombre"
+                                     loading="lazy" onerror="this.style.display='none'" />
+                            </div>
+                            <div class="es-company-title">
+                                <h3><a asp-controller="Directorio" asp-action="Empresa" asp-route-id="@empresa.Id">@empresa.Nombre</a></h3>
+                                <div class="es-company-metadata">
+                                    @if(!string.IsNullOrWhiteSpace(empresa.Giro)){<span class="es-pill">@empresa.Giro</span>}
+                                    @if(!string.IsNullOrWhiteSpace(empresa.Ciudad)){<span>⌖ @empresa.Ciudad</span>}
+                                    <span>@empresa.TotalSucursales @(empresa.TotalSucursales==1 ? "sucursal" : "sucursales")</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="es-description">@(string.IsNullOrWhiteSpace(empresa.Descripcion)
+                            ? "Consulta sus servicios, precios y sucursales disponibles para reservar."
+                            : empresa.Descripcion)</p>
+                        <div class="es-services-list">
+                            @foreach(var servicio in empresa.Servicios.Take(2)) {
+                                <div class="es-service-row">
+                                    <a class="es-service-photo" asp-controller="ServicioDetalle" asp-action="Index"
+                                       asp-route-sucursalId="@servicio.SucursalId" asp-route-servicioId="@servicio.Id"
+                                       aria-label="Ver detalle de @servicio.Nombre">
+                                        <span aria-hidden="true">✳</span>
+                                        <img src="/Imagenes/Ver?uso=imagen_servicio&amp;id=@servicio.Id"
+                                             alt="" loading="lazy" onerror="this.style.display='none'" />
+                                    </a>
+                                    <div class="es-service-title">
+                                        <a asp-controller="ServicioDetalle" asp-action="Index"
+                                           asp-route-sucursalId="@servicio.SucursalId" asp-route-servicioId="@servicio.Id">@servicio.Nombre</a>
+                                        <small>@servicio.Sucursal</small>
+                                    </div>
+                                    <div class="es-service-action">
+                                        <strong>@servicio.Precio.ToString("C",mx)</strong>
+                                        @if(User.IsInRole("cliente")) {
+                                            <a class="btn btn-primary btn-sm" asp-controller="Citas" asp-action="Nueva"
+                                               asp-route-servicioId="@servicio.Id" asp-route-sucursalId="@servicio.SucursalId">Reservar</a>
+                                        } else {
+                                            <a class="btn btn-primary btn-sm" asp-controller="Cuenta" asp-action="Ingresar"
+                                               asp-route-returnUrl="@Url.Action("Nueva","Citas",new {servicioId=servicio.Id,sucursalId=servicio.SucursalId})">Reservar</a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="es-business-footer">
+                            <a class="btn btn-primary" asp-controller="Directorio" asp-action="Empresa" asp-route-id="@empresa.Id">Ver empresa <span aria-hidden="true">→</span></a>
+                            @if(User.IsInRole("cliente") && empresa.Servicios.Count>0) {
+                                <form asp-controller="Cliente" asp-action="Favorito" method="post">
+                                    <input type="hidden" name="servicioId" value="@empresa.Servicios[0].Id" />
+                                    <input type="hidden" name="agregar" value="true" />
+                                    <button type="submit" class="btn btn-outline es-favorite" title="Guardar @empresa.Servicios[0].Nombre en favoritos">♡ Favorito</button>
+                                </form>
+                            } else {
+                                <a class="btn btn-outline es-favorite" asp-controller="Cuenta" asp-action="Ingresar"
+                                   asp-route-returnUrl="@Url.Action("Empresa","Directorio",new {id=empresa.Id})">♡ Favorito</a>
+                            }
+                        </div>
+                    </div>
+                </article>
+            }
+        </section>
+    }
+    <p class="es-endnote">Los precios, imágenes y valoraciones se obtienen de las empresas registradas en CITICIO.</p>
+</div>

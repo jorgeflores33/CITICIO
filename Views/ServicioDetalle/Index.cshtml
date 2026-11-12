@@ -1,0 +1,26 @@
+@model DbRow
+@using System.Globalization
+@{
+  ViewData["Title"] = Model.S("servicio");
+  var mx = CultureInfo.GetCultureInfo("es-MX");
+}
+<section class="section-wrapper" style="max-width:1050px;margin:auto">
+ <a class="text-link" asp-controller="Directorio" asp-action="Empresa" asp-route-id="@Model.I("id_empresa")">← Volver a @Model.S("empresa")</a>
+ <div class="booking-layout" style="margin-top:24px">
+   <div class="form-card" style="overflow:hidden">
+    <img src="/Imagenes/Ver?uso=imagen_servicio&amp;id=@Model.I("id_servicio")" alt="Imagen de @Model.S("servicio")" loading="eager" style="width:100%;max-height:350px;object-fit:cover" onerror="this.style.display='none'"/>
+    <span class="eyebrow">SERVICIO EN CITICIO</span>
+    <h1>@Model.S("servicio")</h1>
+    <p>@Model.S("descripcion")</p>
+    <p><strong>Empresa:</strong> @Model.S("empresa")</p>
+    <p><strong>Sucursal:</strong> @Model.S("sucursal") · @Model.S("colonia"), @Model.S("municipio")</p>
+    <p><strong>Duración estimada:</strong> @Model.I("duracion_minutos") minutos</p>
+    <h2>@Model.M("precio").ToString("C",mx)</h2>
+    @if(User.IsInRole("cliente")) {
+      <a class="btn btn-primary" asp-controller="Citas" asp-action="Nueva" asp-route-servicioId="@Model.I("id_servicio")" asp-route-sucursalId="@Model.I("id_sucursal")">Agendar cita</a>
+    } else {
+      <a class="btn btn-primary" asp-controller="Cuenta" asp-action="Ingresar" asp-route-returnUrl="@Url.Action("Nueva","Citas",new {servicioId=Model.I("id_servicio"),sucursalId=Model.I("id_sucursal")})">Iniciar sesión para reservar</a>
+    }
+   </div>
+ </div>
+</section>

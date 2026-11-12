@@ -1,0 +1,6 @@
+@model EmpleadoServicioForm
+@{ViewData["Title"]="Servicio por empleado";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">PERSONAL AUTORIZADO</span><h1>Asignar servicio a empleado</h1><p>Solo los profesionales asignados a un servicio aparecen como disponibles para reservarlo.</p></div><div class="form-card"><form asp-action="ServicioEmpleado" method="post"><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="EmpleadoId">Empleado</label><select asp-for="EmpleadoId"><option value="0">Selecciona empleado</option>@foreach(DbRow r in ViewBag.Empleados){<option value="@r.I("id_empleado")">@r.S("nombre") @r.S("apellido_paterno")</option>}</select>
+<label asp-for="ServicioId">Servicio</label><select asp-for="ServicioId"><option value="0">Selecciona servicio</option>@foreach(DbRow r in ViewBag.Servicios){<option value="@r.I("id_servicio")">@r.S("nombre")</option>}</select>
+<button type="submit" class="btn btn-primary">Asignar servicio →</button></form></div></section>

@@ -1,0 +1,29 @@
+@model Citicio.Models.EmpleadoSucursalEditarForm
+@{
+    ViewData["Title"] = "Editar trabajador";
+}
+<section class="form-page">
+    <div class="content-head">
+        <span class="eyebrow">PERSONAL</span>
+        <h1>Editar trabajador</h1>
+        <p>Puedes actualizar los datos y el estatus de los empleados de tu sucursal, sin cambiar su rol ni su sucursal.</p>
+    </div>
+    <div class="form-card wide-card">
+        <form method="post" asp-controller="PersonalSucursal" asp-action="Editar">
+            <div asp-validation-summary="All" class="validation"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-grid">
+                <div><label asp-for="Nombre">Nombre</label><input asp-for="Nombre" /><span asp-validation-for="Nombre"></span></div>
+                <div><label asp-for="Paterno">Apellido paterno</label><input asp-for="Paterno" /><span asp-validation-for="Paterno"></span></div>
+                <div><label asp-for="Materno">Apellido materno</label><input asp-for="Materno" /><span asp-validation-for="Materno"></span></div>
+                <div><label asp-for="Correo">Correo de acceso</label><input asp-for="Correo" type="email" /><span asp-validation-for="Correo"></span></div>
+                <div><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono" type="tel" /><span asp-validation-for="Telefono"></span></div>
+                <div><label>Sucursal asignada</label><input value="@ViewBag.NombreSucursal" readonly aria-readonly="true" /></div>
+            </div>
+            <label class="empresa-check"><input asp-for="Activo" type="checkbox" /> Empleado activo</label>
+            <p class="form-hint">El trabajador deberá iniciar sesión con su nuevo correo si lo modificas.</p>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <a asp-controller="PersonalSucursal" asp-action="Empleados" class="btn btn-outline">Cancelar</a>
+        </form>
+    </div>
+</section>

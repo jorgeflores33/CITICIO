@@ -1,0 +1,7 @@
+@model HorarioEmpleadoForm
+@{ViewData["Title"]="Horario empleado";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">AGENDA DEL PERSONAL</span><h1>Agregar horario de empleado</h1><p>Primero configura un horario compatible en la sucursal.</p></div><div class="form-card"><form asp-action="HorarioEmpleado" method="post"><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="SucursalId">Sucursal</label><select asp-for="SucursalId"><option value="0">Selecciona sucursal</option>@foreach(DbRow r in ViewBag.Sucursales){<option value="@r.I("id_sucursal")">@r.S("nombre")</option>}</select>
+<label asp-for="EmpleadoId">Empleado</label><select asp-for="EmpleadoId"><option value="0">Selecciona empleado</option>@foreach(DbRow r in ViewBag.Empleados){<option value="@r.I("id_empleado")">@r.S("nombre") @r.S("apellido_paterno")</option>}</select>
+<label asp-for="Dia">Día</label><select asp-for="Dia"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select>
+<div class="form-grid"><div><label asp-for="Entrada">Entrada</label><input asp-for="Entrada" type="time" /></div><div><label asp-for="Salida">Salida</label><input asp-for="Salida" type="time" /></div></div><button type="submit" class="btn btn-primary">Guardar horario →</button></form></div></section>

@@ -1,0 +1,9 @@
+@model ServicioForm
+@{ViewData["Title"]="Nuevo servicio";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">SERVICIOS DE EMPRESA</span><h1>Registrar servicio</h1><p>El precio que registres será el mismo para todas las sucursales de esta empresa.</p></div><div class="form-card"><form asp-action="ServicioNuevo" method="post" enctype="multipart/form-data"><div asp-validation-summary="All" class="validation"></div>
+@if(User.IsInRole("admin_empresa")){<input type="hidden" asp-for="EmpresaId" />}else{<label asp-for="EmpresaId">Empresa</label><select asp-for="EmpresaId"><option value="0">Seleccionar empresa</option>@foreach(DbRow x in ViewBag.Empresas){<option value="@x.I("id_empresa")">@x.S("nombre")</option>}</select>}
+<label asp-for="Nombre">Nombre del servicio</label><input asp-for="Nombre" placeholder="Ej. Consulta general" />
+<label asp-for="Descripcion">Descripción</label><textarea asp-for="Descripcion" rows="3"></textarea>
+<label asp-for="Precio">Precio fijo en MXN</label><input asp-for="Precio" type="number" min="0" step="0.01" />
+<label asp-for="ImagenArchivo">Imagen (opcional, máximo 2 MB)</label><input asp-for="ImagenArchivo" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" data-max-image /><small class="muted">JPG, PNG o WebP; se almacena en la base de datos.</small><span asp-validation-for="ImagenArchivo" class="validation"></span>
+<button class="btn btn-primary" type="submit">Crear servicio →</button></form></div></section>

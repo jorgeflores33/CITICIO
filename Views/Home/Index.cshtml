@@ -1,0 +1,59 @@
+@model HomeVM
+@{ViewData["Title"]="Inicio";}
+<section class="hero">
+ <div class="hero-copy"><span class="hero-badge"><span class="status-dot"></span> Reservas fáciles, negocios reales</span>
+  <h1>Encuentra tu próximo <span>gran servicio.</span></h1>
+  <p>Desde salud y bienestar hasta belleza, asesorías y mucho más. Explora, compara y reserva en una sola plataforma.</p>
+  <form class="search-box" method="get" asp-controller="Home" asp-action="Index">
+   <span class="search-icon">⌕</span><input name="buscar" value="@Model.Busqueda" aria-label="Buscar servicios" placeholder="Busca un servicio, sucursal o empresa" />
+   <button type="submit" class="btn btn-primary">Buscar servicios</button>
+  </form>
+  <div class="hero-metrics"><div><strong>Un solo lugar</strong><span>para todas tus citas</span></div><div><strong>Sin complicaciones</strong><span>reserva en minutos</span></div></div>
+ </div>
+ <div class="hero-art" aria-hidden="true">
+  <div class="art-decor circle1"></div><div class="art-decor circle2"></div>
+  <div class="floating-tag tag-one">✳ <span><b>Busca</b><small>Lo que necesitas</small></span></div>
+  <div class="art-center"><span>✦</span><b>CITICIO</b><small>Tu próxima cita comienza aquí</small></div>
+  <div class="floating-tag tag-two">✓ <span><b>Reserva confirmada</b><small>Todo en un mismo sitio</small></span></div>
+ </div>
+</section>
+@if(ViewBag.Error is string error) {<div class="alert alert-error">@error</div>}
+<section class="section-wrapper section-top"><div class="section-heading"><div><span class="eyebrow">EXPLORA A TU MANERA</span><h2>Encuentra tu categoría</h2><p>Descubre empresas y profesionales según lo que necesitas hoy.</p></div></div>
+ <div class="category-row">
+  <a asp-controller="Home" asp-action="Index" class="category-pill @(Model.GiroId==null?"selected":"")">✦ Todas</a>
+  @foreach(var giro in Model.Giros.Take(10)) {<a asp-controller="Home" asp-action="Index" asp-route-giro="@giro.I("id_giro")" class="category-pill @(Model.GiroId==giro.I("id_giro")?"selected":"")">✳ @giro.S("nombre_giro")</a>}
+  @if(Model.Giros.Count==0){<span class="muted">Las categorías aparecerán cuando se registren giros de empresas.</span>}
+ </div>
+</section>
+<section class="section-wrapper"><div class="section-heading"><div><span class="eyebrow">ENCUENTRA LO QUE BUSCAS</span><h2>Servicios para ti</h2><p>Elige la sucursal, conoce el precio fijo y agenda con el profesional disponible.</p></div><span class="count-pill">@Model.Catalogo.Count opciones</span></div>
+ <div class="service-grid">
+ @foreach(var s in Model.Catalogo) {
+ <article class="service-card">
+  <div class="service-visual"><span class="service-placeholder">✦</span><img src="/Imagenes/Ver?uso=imagen_servicio&amp;id=@s.I("id_servicio")" alt="Servicio @s.S("servicio")" loading="lazy" onerror="this.style.display='none'" /><span class="service-duration">◷ @s.I("duracion_minutos") min</span></div>
+  <div class="service-content"><div class="service-kicker"><a asp-controller="Directorio" asp-action="Empresa" asp-route-id="@s.I("id_empresa")">@s.S("empresa")</a> · @s.S("municipio")</div><h3><a asp-controller="ServicioDetalle" asp-action="Index" asp-route-sucursalId="@s.I("id_sucursal")" asp-route-servicioId="@s.I("id_servicio")">@s.S("servicio")</a></h3><p>@s.S("sucursal") · @s.S("colonia")</p><div class="service-bottom"><div><small>Desde</small><strong>@s.M("precio").ToString("C",System.Globalization.CultureInfo.GetCultureInfo("es-MX"))</strong></div>
+    <a class="btn btn-outline btn-sm" asp-controller="ServicioDetalle" asp-action="Index" asp-route-sucursalId="@s.I("id_sucursal")" asp-route-servicioId="@s.I("id_servicio")">Ver detalles</a>
+    @if(User.Identity?.IsAuthenticated==true&&User.IsInRole("cliente")) {<a class="btn btn-primary btn-sm" asp-controller="Citas" asp-action="Nueva" asp-route-servicioId="@s.I("id_servicio")" asp-route-sucursalId="@s.I("id_sucursal")">Reservar</a>}
+    else {<a class="btn btn-primary btn-sm" asp-controller="Cuenta" asp-action="Ingresar" asp-route-returnUrl="@Url.Action("Nueva","Citas",new {servicioId=s.I("id_servicio"),sucursalId=s.I("id_sucursal")})">Reservar</a>}
+   </div>
+   @if(User.IsInRole("cliente")) {<form asp-controller="Cliente" asp-action="Favorito" method="post"><input type="hidden" name="servicioId" value="@s.I("id_servicio")" /><button class="text-link" type="submit">♡ Guardar servicio</button></form>}
+  </div>
+ </article>
+ }
+ </div>
+ @if(Model.Catalogo.Count==0){<div class="empty-state">✳<h3>Todavía no hay servicios disponibles.</h3><p>Para aparecer aquí, una empresa debe tener un servicio asignado a una sucursal activa.</p></div>}
+</section>
+<section class="section-wrapper"><div class="section-heading"><div><span class="eyebrow">CONOCE LOS NEGOCIOS</span><h2>Explora empresas</h2><p>Consulta sus sucursales, imágenes, servicios y reseñas antes de reservar.</p></div></div>
+<div class="company-location-grid">
+@foreach(var grupo in Model.Catalogo.GroupBy(s=>s.I("id_empresa")).Take(12)) {
+ var primera=grupo.First();
+ <a class="company-mini" asp-controller="Directorio" asp-action="Empresa" asp-route-id="@grupo.Key">
+ <div class="company-mini-banner"><img src="/Imagenes/Ver?uso=portada_empresa&amp;id=@grupo.Key" alt="" loading="lazy" onerror="this.style.display='none'"/></div>
+ <div class="company-mini-info"><img src="/Imagenes/Ver?uso=logo_empresa&amp;id=@grupo.Key" alt="" loading="lazy" onerror="this.style.display='none'"/><div><strong>@primera.S("empresa")</strong><p>@(grupo.Select(s=>s.I("id_servicio")).Distinct().Count()) servicios · Ver perfil →</p></div></div>
+ </a>
+}</div></section>
+<section class="section-wrapper top-section"><div class="section-heading"><div><span class="eyebrow">DESCUBRE LOS DESTACADOS</span><h2>Top 10 de empresas</h2><p>Empresas destacadas por citas completadas y reseñas verificadas.</p></div><a class="text-link" asp-controller="Home" asp-action="Top10">Ver clasificación completa →</a></div>
+<div class="top-cards">@for(int i=0;i<Math.Min(3,Model.Top.Count);i++){var item=Model.Top[i];<a class="top-card" asp-controller="Directorio" asp-action="Empresa" asp-route-id="@item.I("id_empresa")"><span class="rank">#@(i+1)</span><div class="top-logo"><img src="/Imagenes/Ver?uso=logo_empresa&amp;id=@item.I("id_empresa")" alt="" loading="lazy" onerror="this.style.display='none'"/></div><div><b>@item.S("empresa")</b><span>@item.I("citas_completadas") citas completadas · @item.I("sucursales") sucursales</span></div><div class="top-score">★ @(string.IsNullOrEmpty(item.S("calificacion_promedio"))?"—":item.S("calificacion_promedio"))</div></a>}</div>
+@if(Model.Top.Count==0){<p class="muted">Las empresas destacadas aparecerán cuando publiquen servicios activos.</p>}
+</section>
+<section class="business-cta"><div><span class="eyebrow">PARA EMPRESAS Y PROFESIONALES</span><h2>Haz crecer tu negocio con CITICIO</h2><p>Registra tu empresa, organiza tus sucursales y personal, y recibe citas desde la plataforma.</p></div><a asp-controller="Cuenta" asp-action="RegistrarEmpresa" class="btn btn-primary">Registrar mi empresa →</a></section>
+<section class="cta-banner"><div><span class="eyebrow">AGENDA TU SIGUIENTE CITA</span><h2>Más tiempo para lo que importa.</h2><p>Administra tus reservas y descubre nuevos servicios en CITICIO.</p></div><a asp-controller="Cuenta" asp-action="Registrarse" class="btn btn-white">Crear cuenta gratis →</a></section>

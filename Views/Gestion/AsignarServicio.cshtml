@@ -1,0 +1,7 @@
+@model AsociarForm
+@{ViewData["Title"]="Asignar servicio";}
+<section class="form-page"><div class="content-head"><span class="eyebrow">CONFIGURACIÓN DE SUCURSALES</span><h1>Habilitar servicio en sucursal</h1><p>Asigna un servicio ya creado en la empresa. Solo se define su duración; el precio no cambia.</p></div><div class="form-card"><form asp-action="AsignarServicio" method="post"><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="SucursalId">Sucursal</label><select asp-for="SucursalId"><option value="0">Seleccionar sucursal</option>@foreach(DbRow x in ViewBag.Sucursales){<option value="@x.I("id_sucursal")">@x.S("nombre")</option>}</select>
+<label asp-for="ServicioId">Servicio de la empresa</label><select asp-for="ServicioId"><option value="0">Seleccionar servicio</option>@foreach(DbRow x in ViewBag.Servicios){<option value="@x.I("id_servicio")">@x.S("nombre")</option>}</select>
+<label asp-for="Duracion">Duración en minutos</label><input asp-for="Duracion" type="number" min="1" max="720" />
+<button class="btn btn-primary" type="submit">Habilitar servicio →</button></form></div></section>
