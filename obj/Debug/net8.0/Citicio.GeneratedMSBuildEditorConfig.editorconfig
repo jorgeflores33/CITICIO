@@ -1,0 +1,304 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Citicio
+build_property.RootNamespace = Citicio
+build_property.ProjectDir = C:\Citicio\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Citicio
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Citicio/Views/AdminGeneral/Conciliaciones.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5HZW5lcmFsXENvbmNpbGlhY2lvbmVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/AdminGeneral/Empresas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5HZW5lcmFsXEVtcHJlc2FzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/AdminGeneral/Giros.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5HZW5lcmFsXEdpcm9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/AdminGeneral/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5HZW5lcmFsXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/AdminGeneral/Roles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5HZW5lcmFsXFJvbGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/AdminGeneral/TransferenciasPendientes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5HZW5lcmFsXFRyYW5zZmVyZW5jaWFzUGVuZGllbnRlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/AdminGeneral/Usuarios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5HZW5lcmFsXFVzdWFyaW9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Citas/MisCitas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2l0YXNcTWlzQ2l0YXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Citas/Nueva.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2l0YXNcTnVldmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Clientes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cliente/Favoritos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxGYXZvcml0b3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cliente/Resenas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxSZXNlbmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cliente/Reseñar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxSZXNlw7Fhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cuenta/Ingresar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhXEluZ3Jlc2FyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cuenta/RegistrarEmpresa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhXFJlZ2lzdHJhckVtcHJlc2EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cuenta/Registrarse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhXFJlZ2lzdHJhcnNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cuenta/SinPermiso.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhXFNpblBlcm1pc28uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Cuenta/TipoCuenta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhXFRpcG9DdWVudGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Directorio/Perfil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlyZWN0b3Jpb1xQZXJmaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/DuracionServicios/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHVyYWNpb25TZXJ2aWNpb3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/EmpresaAdministracion/EditarEmpleado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYUFkbWluaXN0cmFjaW9uXEVkaXRhckVtcGxlYWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/EmpresaAdministracion/EditarSucursal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYUFkbWluaXN0cmFjaW9uXEVkaXRhclN1Y3Vyc2FsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/EmpresaAdministracion/Empleados.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYUFkbWluaXN0cmFjaW9uXEVtcGxlYWRvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/EmpresaAdministracion/Servicios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYUFkbWluaXN0cmFjaW9uXFNlcnZpY2lvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/EmpresaAdministracion/ServiciosEmpleado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYUFkbWluaXN0cmFjaW9uXFNlcnZpY2lvc0VtcGxlYWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/EmpresaAdministracion/Sucursales.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYUFkbWluaXN0cmFjaW9uXFN1Y3Vyc2FsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Empresa/Panel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxQYW5lbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/AsignarServicio.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxBc2lnbmFyU2VydmljaW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/CobroEmpresaNuevo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxDb2Jyb0VtcHJlc2FOdWV2by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/EmpleadoNuevo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxFbXBsZWFkb051ZXZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/EmpresaNueva.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxFbXByZXNhTnVldmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/GiroEmpresa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxHaXJvRW1wcmVzYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/HorarioEmpleado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxIb3JhcmlvRW1wbGVhZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/HorarioSucursal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxIb3JhcmlvU3VjdXJzYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/ServicioEditar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxTZXJ2aWNpb0VkaXRhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/ServicioEmpleado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxTZXJ2aWNpb0VtcGxlYWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/ServicioNuevo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxTZXJ2aWNpb051ZXZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Gestion/SucursalNueva.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VzdGlvblxTdWN1cnNhbE51ZXZhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Home/Empresas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFbXByZXNhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Home/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Home/Top10.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxUb3AxMC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/HorariosPanel/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9yYXJpb3NQYW5lbFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Imagenes/Subir.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1hZ2VuZXNcU3ViaXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/MiPerfil/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWlQZXJmaWxcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/MiSucursal/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWlTdWN1cnNhbFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Pago/Resultado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnb1xSZXN1bHRhZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Panel/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFuZWxcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Panel/Tabla.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFuZWxcVGFibGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/PersonalSucursal/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYWxTdWN1cnNhbFxFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/PersonalSucursal/Empleados.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYWxTdWN1cnNhbFxFbXBsZWFkb3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/PersonalSucursal/Nuevo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYWxTdWN1cnNhbFxOdWV2by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/PersonalSucursal/ServiciosEmpleado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYWxTdWN1cnNhbFxTZXJ2aWNpb3NFbXBsZWFkby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Publico/Catalogo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljb1xDYXRhbG9nby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Publico/CrearCuenta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljb1xDcmVhckN1ZW50YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Publico/RegistrarEmpresa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljb1xSZWdpc3RyYXJFbXByZXNhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Publico/Top10.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljb1xUb3AxMC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Seguridad/Recuperar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VndXJpZGFkXFJlY3VwZXJhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Seguridad/Restablecer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VndXJpZGFkXFJlc3RhYmxlY2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/ServicioDetalle/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljaW9EZXRhbGxlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Shared/_LayoutEmpresaPublico.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRFbXByZXNhUHVibGljby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Spei/Cuentas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3BlaVxDdWVudGFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Spei/Pagar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3BlaVxQYWdhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Spei/Pendientes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3BlaVxQZW5kaWVudGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Suscripcion/Configuracion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VzY3JpcGNpb25cQ29uZmlndXJhY2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Suscripcion/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VzY3JpcGNpb25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/Suscripcion/Resultado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VzY3JpcGNpb25cUmVzdWx0YWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Citicio/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
